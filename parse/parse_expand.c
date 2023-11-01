@@ -1,5 +1,4 @@
 #include "../inc/minishell.h"
-
 size_t	find_pos_dollar(char *str)
 {
 	int	i;
@@ -81,8 +80,8 @@ char *split_env(char *str)
 		expanded = build_expended_line(before, to_expand, after);
 	else
 		expanded = build_expended_line(before, getenv(to_expand), after);
-	printf("%s|\n", expanded);
-	return (NULL);
+	//printf("%s|\n", expanded);
+	return (expanded);
 }
 	
 	

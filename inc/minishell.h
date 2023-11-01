@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/01 15:15:52 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/01 20:04:09 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,5 +198,13 @@ int			env_add(char *line, t_env *lst_env);
 int		    is_valid_env(const char *env);
 
 void        ft_free_lst(t_env *lst);
+
+int         find_next_pipe(char *str);
+
+char        **line_to_tab(char *line);
+
+t_cmds      *tab_to_struct(char **cmds);
+
+char        *ft_positive(char *str);
 
 #endif
