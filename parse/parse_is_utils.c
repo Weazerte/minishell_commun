@@ -1,4 +1,4 @@
-#include "minishell_parse.h"
+#include "../inc/minishell.h"
 
 int	is_digit(int c)
 {

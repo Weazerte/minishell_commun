@@ -1,4 +1,4 @@
-#include "minishell_parse.h"
+#include "../inc/minishell.h"
 
 void handle_sigint(int sig) 
 {

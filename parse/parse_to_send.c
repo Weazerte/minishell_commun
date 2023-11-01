@@ -1,4 +1,4 @@
-#include "minishell_parse.h"
+#include "../inc/minishell.h"
 
 void	find_nbcmd(char *str)
 {

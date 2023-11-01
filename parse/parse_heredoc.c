@@ -1,4 +1,4 @@
-#include "minishell_parse.h"
+#include "../inc/minishell.h"
 
 char	*find_heredoc(char *line)
 {

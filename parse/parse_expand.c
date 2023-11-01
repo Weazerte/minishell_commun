@@ -1,4 +1,4 @@
-#include "minishell_parse.h"
+#include "../inc/minishell.h"
 
 size_t	find_pos_dollar(char *str)
 {
