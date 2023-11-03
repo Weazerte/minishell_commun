@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_heredoc_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 19:28:39 by mapierre          #+#    #+#             */
+/*   Updated: 2023/11/03 22:00:25 by mapierre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
-void is_inside_sig(int sig)
+void	is_inside_sig(int sig)
 {
 	if (sig == SIGINT)
 		write(1, '\n', 1);
@@ -17,7 +29,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		len = j - start;
 	if (!s || (j < start))
 		return (ft_strdup(""));
-	str = malloc((len + 1) * sizeof (char));
+	str = malloc((len + 1) * sizeof(char));
 	if (!str)
 		return (0);
 	j = start;
@@ -32,12 +44,12 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (str);
 }
 
-char *find_delimit(char *line)
+char	*find_delimit(char *line)
 {
 	int	i;
 
 	i = 0;
-	while(*line)
+	while (*line)
 	{
 		while (is_space(*line))
 			line++;
@@ -53,4 +65,3 @@ char *find_delimit(char *line)
 	}
 	return (NULL);
 }
-

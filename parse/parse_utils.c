@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 19:28:17 by mapierre          #+#    #+#             */
+/*   Updated: 2023/11/03 22:00:10 by mapierre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 size_t	ft_strlen(const char *s)
@@ -29,30 +41,27 @@ char	*ft_strdup(const char *s)
 	return (dup);
 }
 
-char *ft_strndup(const char *s, size_t n)
+char	*ft_strndup(const char *s, size_t n)
 {
-    size_t i;
-    char *dup;
+	size_t	i;
+	char	*dup;
 
-    i = 0;
-    while (s[i] && i < n)
-    {
-        i++;
-    }
-
-    dup = (char *)malloc((i + 1) * sizeof(char));
-    if (!dup)
-        return (NULL);
-
-    i = 0;
-    while (s[i] && i < n)
-    {
-        dup[i] = s[i];
-        i++;
-    }
-    
-    dup[i] = '\0';
-    return (dup);
+	i = 0;
+	while (s[i] && i < n)
+	{
+		i++;
+	}
+	dup = (char *)malloc((i + 1) * sizeof(char));
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (s[i] && i < n)
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }
 
 unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
@@ -88,4 +97,17 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 	}
 	return (0);
+}
+/////////////////////////////////////////LIBFT/////////////////////////
+
+char	*dollar_qm(void)
+{
+	char	*var;
+
+	var = malloc(2);
+	if (!var)
+		return (NULL);
+	var[0] = '0' + DQM;
+	var[1] = '\0';
+	return (var);
 }

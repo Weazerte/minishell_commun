@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_heredoc.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 19:28:32 by mapierre          #+#    #+#             */
+/*   Updated: 2023/11/03 22:00:21 by mapierre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 char	*find_heredoc(char *line)
@@ -7,16 +19,16 @@ char	*find_heredoc(char *line)
 	while (*line && *(line + 2))
 	{
 		if (*line == '<' && *(line + 1) == '<')
-			return(line + 2);
-		line ++;
+			return (line + 2);
+		line++;
 	}
 	return (NULL);
 }
 
-char *find_multi_heredoc(char *line)
+char	*find_multi_heredoc(char *line)
 {
-	char *save;
-	char *tmp;
+	char	*save;
+	char	*tmp;
 	int		count;
 
 	save = line;
@@ -32,13 +44,13 @@ char *find_multi_heredoc(char *line)
 	{
 		tmp = save;
 		save = do_heredoc(save);
-		if(tmp != line && count!= -1)
+		if (tmp != line && count != -1)
 			free(tmp);
 	}
 	return (save);
 }
 
-char *path_file(void)
+char	*path_file(void)
 {
 	char		*count;
 	char		*file_path;
@@ -47,16 +59,16 @@ char *path_file(void)
 	count = ft_itoa(i++);
 	file_path = build_expended_line("/tmp/file", count, "");
 	if (count)
-		free (count);
+		free(count);
 	return (file_path);
 }
 
-static char *do_heredoc(char *line)
+static char	*do_heredoc(char *line)
 {
-	char	*pos;
-	char	*delimit;
-	char	*file;
-	char	*new;
+	char *pos;
+	char *delimit;
+	char *file;
+	char *new;
 
 	pos = find_heredoc(line);
 	file = path_file();
@@ -69,6 +81,4 @@ static char *do_heredoc(char *line)
 	delimit = find_delimiter(pos);
 	if (!delimit)
 		return (line);
-	
-
 }

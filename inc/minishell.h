@@ -6,7 +6,7 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/01 20:04:09 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/03 22:02:19 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,5 +206,11 @@ char        **line_to_tab(char *line);
 t_cmds      *tab_to_struct(char **cmds);
 
 char        *ft_positive(char *str);
+
+char        *ft_parsing(char *start_line);
+
+char		*dollar_qm(void);
+
+char		*expand_all(char *str);
 
 #endif

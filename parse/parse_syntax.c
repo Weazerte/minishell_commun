@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_syntax.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 19:20:58 by mapierre          #+#    #+#             */
+/*   Updated: 2023/11/03 22:00:12 by mapierre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 int	operator_parse(char *str, char op)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (!str)
 		return (0);
 	tmp = str;
-	while (*tmp && *tmp == ' ')
+	while (*tmp && is_space(*tmp))
 		tmp++;
 	if (!*tmp)
 		return (syntax_error(0));
@@ -50,10 +62,10 @@ int	syntax_parse(char *str)
 			if (is_start && *str == '|')
 				return (syntax_error(*str));
 			if (!operator_parse(str + 1, *str))
-				return(0);
+				return (0);
 		}
 		if (str && *str)
 			str++;
-		}
-	return (1);
 	}
+	return (1);
+}
