@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:25:17 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/01 12:38:24 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/04 18:37:09 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,6 @@ char	**ft_split_dos(char *s, char c, char *exe)
 	while (list[++index])
 		tab[index] = ft_strjoin(list[index], exe);
 	tab[index] = 0;
-	ft_free_list(list);
+	free_tab(list);
 	return (tab);
 }

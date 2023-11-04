@@ -6,40 +6,12 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:03:20 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/01 15:19:20 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/04 20:34:07 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	one_pipe(t_cmds *data_exec)
-{
-	pid_t pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		//si plusieur args
-		if (is_a_builtin(data_exec->cmd) == 0)
-			exec_with_builtin(data_exec);
-		else if ((ft_verif_space(data_exec->cmd) == 1))
-			exec_with_args(data_exec, data_exec->infile,
-					data_exec->outfile);
-		else
-			exec_without_args(data_exec, data_exec->infile,
-					data_exec->outfile);
-	}
-    waitpid(pid, NULL, 0);
-}
-
-void	exec(t_cmds **data_exec)
-{
-	printf("cmd exec : %s\n", (*data_exec)[0].cmd);
-    if ((*data_exec)->data.ncmd == 1)
-    	one_pipe(*data_exec);
-    else
-    	make_all_exec(*data_exec);
-}
 
 //checker les strdup (leak)
 char **ft_env_cpy(char **env)
@@ -65,40 +37,85 @@ char **ft_env_cpy(char **env)
 	return (cpy);
 }
 
-int	main_exec(int ac, char **av, char **env)
+int		one_pipe(t_cmds *data_exec)
 {
-	t_cmds *data_exec;
+	pid_t pid;
+	int	v_ret;
 
-	int	i = 0;
-	int	j = 0;
-	data_exec = malloc(sizeof(t_cmds) * (ac - 1));
-	env_init(&data_exec->lst_env, env);
-	data_exec->env = ft_env_cpy(env);
-	data_exec->data.ncmd = (ac - 1);
-	data_exec->infile = 1;
-	data_exec->outfile = 0;
-	while (++i < ac)
+	v_ret = 0;
+	pid = fork();
+	if (pid == 0)
 	{
-		data_exec[j].cmd = ft_strdup(av[i]);
-		printf("cmd main : %s\n", data_exec[i].cmd);
-		j++;
+		//si plusieur args
+		if (is_a_builtin(data_exec->cmd) == 0)
+			v_ret = exec_with_builtin(data_exec);
+		else if ((ft_verif_space(data_exec->cmd) == 1))
+			exec_with_args(data_exec, data_exec->infile,
+					data_exec->outfile);
+		else
+			exec_without_args(data_exec, data_exec->infile,
+					data_exec->outfile);
 	}
-	// secret_env_init(data_exec.data, env);
-	// data_exec.secret_lst_env = &secret_env;
-	// if (data->ncmd == 1)
-	exec(&data_exec);
-	// while (data_exec.lst_env->next)
-	// {
-	// 	printf("%s\n", data_exec.lst_env->env_line);
-	// 	data_exec.lst_env = data_exec.lst_env->next;
-	// }
-    // else
-    // 	make_all_exec(data_exec, data);
-	// ft_free_tabx2(data_exec->env);
-	// ft_free_lst(data_exec->lst_env);
-	// free(data_exec->cmd);
-	return (0);
-	// readline();
-	//pars
-	// exec(data_exec, data, env)
+    waitpid(pid, NULL, 0);
+	ft_free_one_ex(data_exec);
+	return (v_ret);
 }
+
+int		exec(t_cmds **data_exec)
+{
+    if ((*data_exec)->ncmd == 1)
+    	return (one_pipe(*data_exec));
+    else
+    	return (make_all_exec(*data_exec));
+}
+
+// int	main(int ac, char **av, char **env)
+// {
+// 	t_cmds *data_exec;
+// 	int		ex = 0;
+// 	int ret;
+
+// 	if (ac == 2)
+// 	{
+// 		(void)ac;
+// 		data_exec = malloc(sizeof(t_cmds) * (1));
+// 		env_init(&data_exec->lst_env, env);
+// 		// ft_print_lst(data_exec->lst_env);
+// 		// printf("verif ::::: %s\n", data_exec->lst_env->env_line);
+// 		data_exec->env = ft_env_cpy(env);
+// 		data_exec->ncmd = 1;
+// 		data_exec->infile = 0;
+// 		data_exec->outfile = 1;
+// 		data_exec->exit = ex;
+// 		data_exec->cmd = ft_strdup(av[1]);
+// 	}
+// 	else
+// 	{
+// 		(void)ac;
+// 		(void)av;
+// 		data_exec = malloc(sizeof(t_cmds) * (3));
+// 		int	j = 0;
+// 		data_exec[0].cmd = ft_strdup("ls -l");
+// 		data_exec[1].cmd = ft_strdup("ls -l");
+// 		data_exec[2].cmd = ft_strdup("wc -l");
+// 		while (j < (3))
+// 		{
+// 			env_init(&data_exec[j].lst_env, env);
+// 			data_exec[j].env = ft_env_cpy(env);
+// 			data_exec[j].cmd = ft_strdup(av[j + 1]);
+// 			data_exec[j].infile = 0;
+// 			data_exec[j].outfile = 1;
+// 			data_exec[j].ncmd = 3;
+// 			data_exec[j].exit = ex;
+// 			j++;
+// 		}
+// 	}
+// 	ret = exec(&data_exec);
+// 	if (data_exec)
+// 		free(data_exec);
+// 	return (0);
+// }
+ 
+
+ // verifier tout les test 
+ // cas actuelle ; builtin necrivent pas dans le pipe

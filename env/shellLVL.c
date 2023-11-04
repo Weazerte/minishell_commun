@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:44:35 by weaz              #+#    #+#             */
-/*   Updated: 2023/10/31 13:38:34 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/04 20:57:19 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static void	ft_skip_spacenl(const char *s, int *i)
 {
 	while (s[(*i)++])
-		if (s[(*i)] >= 0 && s[(*i)]<= 9)
+		if (s[(*i)] >= 0 && s[(*i)] <= 9)
 			return ;
 }
 
-static int			invalid_lvl(const char *str)
+static int	invalid_lvl(const char *str)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -33,7 +33,7 @@ static int			invalid_lvl(const char *str)
 	return (0);
 }
 
-static int			get_lvl(const char *str)
+static int	get_lvl(const char *str)
 {
 	int	i;
 	int	sign;
@@ -54,7 +54,7 @@ static int			get_lvl(const char *str)
 	return (num * sign);
 }
 
-void				increment_shell_level(t_env *lst_env)
+void	increment_shell_level(t_env *lst_env)
 {
 	int		shell_level;
 	char	env_name[BUFF_SIZE];

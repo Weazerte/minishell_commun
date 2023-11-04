@@ -6,13 +6,13 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 14:48:10 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/01 13:13:23 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/04 20:55:36 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static void		p_error(char **args)
+static void	p_error(char **args)
 {
 	ft_putinfd("cd: ", 2);
 	if (args[2])
@@ -25,7 +25,7 @@ static void		p_error(char **args)
 	ft_putinfd_n(args[1], 2);
 }
 
-static char		*get_env_path(t_env *lst_env, const char *var, size_t len)
+static char	*get_env_path(t_env *lst_env, const char *var, size_t len)
 {
 	char	*oldpwd;
 	int		i;
@@ -37,15 +37,14 @@ static char		*get_env_path(t_env *lst_env, const char *var, size_t len)
 		if (ft_strncmp(lst_env->env_line, var, len) == 0)
 		{
 			s_alloc = ft_strlen(lst_env->env_line) - len;
-			if (!(oldpwd = malloc(sizeof(char) * s_alloc + 1)))
+			oldpwd = malloc(sizeof(char) * s_alloc + 1);
+			if (!oldpwd)
 				return (NULL);
 			i = 0;
 			j = 0;
 			while (lst_env->env_line[i++])
-			{
 				if (i > (int)len)
 					oldpwd[j++] = lst_env->env_line[i];
-			}
 			oldpwd[j] = '\0';
 			return (oldpwd);
 		}
@@ -54,14 +53,15 @@ static char		*get_env_path(t_env *lst_env, const char *var, size_t len)
 	return (NULL);
 }
 
-static int		update_oldpwd(t_env *lst_env)
+static int	update_oldpwd(t_env *lst_env)
 {
 	char	cwd[300];
 	char	*oldpwd;
 
 	if (getcwd(cwd, 300) == NULL)
 		return (ERROR);
-	if (!(oldpwd = ft_strjoin("OLDPWD=", cwd)))
+	oldpwd = ft_strjoin("OLDPWD=", cwd);
+	if (!oldpwd)
 		return (ERROR);
 	if (is_already_in_env(lst_env, oldpwd) == 0)
 		env_add(oldpwd, lst_env);
@@ -69,7 +69,7 @@ static int		update_oldpwd(t_env *lst_env)
 	return (SUCCESS);
 }
 
-static int		go2path(int option, t_env *lst_env)
+static int	go2path(int option, t_env *lst_env)
 {
 	int		ret;
 	char	*env_path;
@@ -98,9 +98,9 @@ static int		go2path(int option, t_env *lst_env)
 	return (ret);
 }
 
-int				cd_builtin(char **args, t_env *lst_env)
+int	cd_builtin(char **args, t_env *lst_env)
 {
-	int		cd_ret;
+	int	cd_ret;
 
 	if (!args[1])
 		return (go2path(0, lst_env));

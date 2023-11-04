@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:24:33 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/01 12:13:11 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/04 18:46:00 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,29 @@ char	*ft_path(t_env *lst_env)
 	}
 	return (NULL);
 }
+
+char	**ft_join_tab_cmd(char **tab, char *cmd)
+{
+	int	i;
+	char **tab2;
+	int	len;
+
+	len = 0;
+	while (tab[len])
+		len++;
+	tab2 = malloc(sizeof(char *) * (len + 1));
+	i = -1;
+	while(tab[++i])
+		tab[i] = ft_strjoin(tab[i], "/");
+	i = -1;
+	while (tab[++i])
+		tab2[i] = ft_strjoin(tab[i], cmd);
+	// printf("%s ||| %d\n", tab2[i - 1],  i);
+	tab2[i] = NULL;
+	free_tab(tab);
+	return (tab2);
+}
+
 char	*ft_path_bin(char *cmd, t_env *lst_env)
 {
 	char	**tab;
@@ -67,11 +90,13 @@ char	*ft_path_bin(char *cmd, t_env *lst_env)
 	if (path == NULL)
 		return (NULL);
 	path = ft_cut_path(path);
-	tab = ft_split_dos(path, ':', cmd);
+	// tab = ft_split_dos(path, ':', cmd);
+	tab = ft_split(path, ':');
+	tab = ft_join_tab_cmd(tab, cmd);
 	if (tab == NULL)
 		return (NULL);
 	path = ft_find_bin(tab);
-	ft_free_tabx2(tab);
+	free_tab(tab);
 	if (path == NULL)
 		return (NULL);
 	return (path);

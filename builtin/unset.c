@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: weaz <weaz@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:31:47 by weaz              #+#    #+#             */
-/*   Updated: 2023/10/27 16:37:58 by weaz             ###   ########.fr       */
+/*   Updated: 2023/11/04 20:52:40 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static size_t	env_size(char *env)
 {
-	size_t		i;
+	size_t	i;
 
 	i = 0;
 	while (env[i] && env[i] != '=')
@@ -22,7 +22,7 @@ static size_t	env_size(char *env)
 	return (i);
 }
 
-static void		delete_node(t_env *lst_env, t_env *env)
+static void	delete_node(t_env *lst_env, t_env *env)
 {
 	if (lst_env == env && env->next == NULL)
 	{
@@ -35,7 +35,24 @@ static void		delete_node(t_env *lst_env, t_env *env)
 	ft_memdel(env);
 }
 
-int				unset_builtin(char **a, t_env *lst_env)
+void	unset_builtin_comp(char **a, t_env *lst_env, t_env *env, t_env *tmp)
+{
+	while (env && env->next)
+	{
+		if (ft_strncmp(a[1], env->next->env_line,
+				env_size(env->next->env_line)) == 0)
+		{
+			tmp = env->next->next;
+			delete_node(lst_env, env->next);
+			env->next = tmp;
+			return (SUCCESS);
+		}
+		env = env->next;
+	}
+}
+
+// lst_env = (env->next) ? env->next : lst_env;
+int	unset_builtin(char **a, t_env *lst_env)
 {
 	t_env	*env;
 	t_env	*tmp;
@@ -45,20 +62,11 @@ int				unset_builtin(char **a, t_env *lst_env)
 		return (SUCCESS);
 	if (ft_strncmp(a[1], env->env_line, env_size(env->env_line)) == 0)
 	{
-		lst_env = (env->next) ? env->next : lst_env;
+		if (env->next)
+			lst_env = env->next;
 		delete_node(lst_env, env);
 		return (SUCCESS);
 	}
-	while (env && env->next)
-	{
-		if (ft_strncmp(a[1], env->next->env_line, env_size(env->next->env_line)) == 0)
-		{
-			tmp = env->next->next;
-			delete_node(lst_env, env->next);
-			env->next = tmp;
-			return (SUCCESS);
-		}
-		env = env->next;
-	}
+	unset_builtin_comp(a, lst_env, env, tmp);
 	return (SUCCESS);
 }

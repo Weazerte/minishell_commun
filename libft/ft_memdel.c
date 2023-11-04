@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: weaz <weaz@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:54:06 by weaz              #+#    #+#             */
-/*   Updated: 2023/10/27 15:56:48 by weaz             ###   ########.fr       */
+/*   Updated: 2023/11/04 20:37:45 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void    *ft_memdel(void *s)
+void	*ft_memdel(void *s)
 {
-    if (s)
-    {
-        free(s);
-        s = NULL;
-    }
-    return (NULL);
+	if (s)
+	{
+		free(s);
+		s = NULL;
+	}
+	return (NULL);
 }

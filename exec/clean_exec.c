@@ -6,54 +6,66 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:29:36 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/01 12:45:54 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/04 18:49:29 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_free_tabx2(char **str)
-{
-	int	i;
-
-	i = 0;
-	if (str)
-	{
-		if (str[i])
-		{
-			while (str[i])
-			{
-				if (str[i])
-					free(str[i]);
-				i++;
-			}
-		}
-		free(str);
-	}
-	return ;
-}
-
-void	ft_free_int(t_cmds *data_exec, int o)
+void	ft_free_error(t_cmds *data, int **pipe)
 {
 	int	i;
 
 	i = -1;
-	if (o != -1)
+	if (pipe)
 	{
-		while (++i < data_exec->data.ncmd)
-			free(data_exec->data.pipe[i]);
+		while (++i < (data->ncmd - 1))
+			free(pipe[i]);
+		free(pipe);
 	}
-	// free(data->pipe);
-    // free(data_exec);
+	i = -1;
+	while (++i < data->ncmd)
+	{
+		if (data[i].cmd)
+			ft_memdel(data[i].cmd);
+		if (data[i].env)
+			free_tab(data[i].env);
+		if (data[i].infile != 0)
+			close(data[i].infile);
+		if (data[i].outfile != 0)
+			close(data[i].outfile);
+		if (data[i].lst_env)
+			ft_free_lst(data[i].lst_env);
+		if (data)
+			ft_memdel(data);
+	}
 }
 
-void	ft_close_all(t_cmds *data_exec)
+void	ft_free_cmd(char *str, char **tab)
+{
+	if (str)
+		ft_memdel(str);
+	if (tab)
+		free_tab(tab);
+}
+
+void	ft_close_pipes(t_cmds *data_exec, int **pipe)
 {
 	int		i;
 
 	i = -1;
-	while (++i < data_exec->data.ncmd)
-		ft_close_fd(data_exec->data.pipe[i]);
+	while (++i < (data_exec->ncmd - 1))
+		ft_close_fd(pipe[i]);
+	i = -1;
+	if (pipe)
+	{
+		while (++i < (data_exec->ncmd - 1))
+		{
+			if (pipe[i])
+				free(pipe[i]);
+		}
+		free(pipe);
+	}
 }
 
 void	ft_close_fd(int *fd)

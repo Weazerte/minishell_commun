@@ -6,13 +6,30 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:25:32 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/01 11:42:02 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/04 20:59:51 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-size_t			size_env(t_env *lst_env)
+char	**env_to_tab(t_env *lst_env)
+{
+	int		i;
+	char	**tab;
+
+	i = 0;
+	tab = malloc(sizeof(char *) * (ft_env_lstsize(lst_env) + 1));
+	while (lst_env)
+	{
+		tab[i] = ft_strdup(lst_env->env_line);
+		i++;
+		lst_env = lst_env->next;
+	}
+	tab[i] = NULL;
+	return (tab);
+}
+
+size_t	size_env(t_env *lst_env)
 {
 	size_t	lst_len;
 
@@ -29,25 +46,25 @@ size_t			size_env(t_env *lst_env)
 	return (lst_len);
 }
 
-char			*env_to_str(t_env *lst_env)
+char	*env_to_str(t_env *lst_env)
 {
 	char	*env;
 	int		i;
 	int		j;
 
-	if (!(env = malloc(sizeof(char) * size_env(lst_env) + 1)))
+	env = malloc(sizeof(char) * size_env(lst_env) + 1);
+	if (!env)
 		return (NULL);
 	i = 0;
 	while (lst_env && lst_env->next != NULL)
 	{
 		if (lst_env->env_line != NULL)
 		{
-			j = 0;
-			while (lst_env->env_line[j])
+			j = -1;
+			while (lst_env->env_line[++j])
 			{
 				env[i] = lst_env->env_line[j];
 				i++;
-				j++;
 			}
 		}
 		if (lst_env->next->next != NULL)
@@ -58,7 +75,7 @@ char			*env_to_str(t_env *lst_env)
 	return (env);
 }
 
-int				env_init(t_env **lst_env, char **env)
+int	env_init(t_env **lst_env, char **env)
 {
 	t_env	*new;
 	t_env	*start;
@@ -73,7 +90,8 @@ int				env_init(t_env **lst_env, char **env)
 	i = 1;
 	while (env && env[i])
 	{
-		if (!(new = malloc(sizeof(t_env))))
+		new = malloc(sizeof(t_env));
+		if (!new)
 			return (1);
 		new->env_line = ft_strdup(env[i]);
 		new->next = NULL;
@@ -82,28 +100,5 @@ int				env_init(t_env **lst_env, char **env)
 		i++;
 	}
 	(*lst_env) = start;
-	return (0);
-}
-
-int				secret_env_init(t_env *lst_secret, char **env)
-{
-	t_env	*new;
-	int		i;
-
-	if (!(lst_secret = malloc(sizeof(t_env))))
-		return (1);
-	lst_secret->env_line = ft_strdup(env[0]);
-	lst_secret->next = NULL;
-	i = 1;
-	while (env && env[0] && env[i])
-	{
-		if (!(new = malloc(sizeof(t_env))))
-			return (1);
-		new->env_line = ft_strdup(env[i]);
-		new->next = NULL;
-		lst_secret->next = new;
-		lst_secret = new;
-		i++;
-	}
 	return (0);
 }

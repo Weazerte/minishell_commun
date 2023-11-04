@@ -6,71 +6,104 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:05:08 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/01 14:08:37 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/04 20:04:50 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_pipe_action(t_cmds *data_exec, int i)
+void	ft_multexec_args(t_cmds *data_exec, int read_pipe, int write_pipe)
 {
-	if (i == 0)
+	char	**args;
+	char	*path;
+
+	args = ft_split(data_exec->cmd, ' ');
+	path = ft_path_bin(args[0], data_exec->lst_env);
+	if (!path || !args)
 	{
-		printf("cmd pipe acion : %s\n", data_exec->cmd);
-		ft_first_pipe(data_exec, i);
+		if (args)
+			free_tab(args);
+		ft_putstr_fd("minishell: ", 2);
+		perror("error process");
+		exit(ERROR);
 	}
-	else if (i == (data_exec->data.ncmd - 1))
-		ft_last_pipe(data_exec, i);
-	else
-		ft_inter_pipe(data_exec, i);
+	if (write_pipe != 1)
+	{
+		dup2(write_pipe, STDOUT);
+		close(write_pipe);
+	}
+	if (read_pipe != 0)
+	{
+		dup2(read_pipe, STDIN);
+		close(read_pipe);
+	}
+	execve(path, args, data_exec->env);
+	ft_free_cmd(path, args);
+	exit(-1);
 }
 
-int	init_pipe(t_cmds *data_exec)
+void	ft_multexec_noargs(t_cmds *data_exec, int read_pipe, int write_pipe)
 {
-	int i;
+	char	*path;
+	char	*arr[2];
 
-	i = -1;
-	data_exec->data.pipe = malloc(sizeof(int *) * data_exec->data.ncmd);
-	if (!data_exec->data.pipe)
-		return (-1);
-	while (++i < data_exec->data.ncmd)
+	path = ft_path_bin(data_exec->cmd, data_exec->lst_env);
+	if (!path)
 	{
-		data_exec->data.pipe[i] = malloc(sizeof(int) * 2);
-		if (!data_exec->data.pipe[i])
-			return (ft_free_int(data_exec, i), ERROR);
+		ft_putstr_fd("minishell: ", 2);
+		perror(data_exec->cmd);
+		exit(EXIT_FAILURE);
 	}
-	i = -1;
-	while (++i < data_exec->data.ncmd)
+	arr[0] = path;
+	arr[1] = NULL;
+		if (write_pipe != 0 && write_pipe != -1)
 	{
-		if (pipe(data_exec->data.pipe[i]) == -1)
-			return (ft_free_int(data_exec, -1), perror("Error creating pipes"), ERROR);
+		dup2(write_pipe, STDOUT);
+		close(write_pipe);
 	}
-	return (SUCCESS);
+	if (read_pipe != 1 && read_pipe != -1)
+	{
+		dup2(read_pipe, STDIN);
+		close(read_pipe);
+	}
+	execve(path, arr, data_exec->env);
+	ft_memdel(path);
 }
+
 
 int	make_all_exec(t_cmds *data_exec)
 {
-	pid_t	pid;
+	
 	int		i;
-	int		pids[1024];
+	pid_t		pid[1024];
+	int	**pipe;
 
-	init_pipe(data_exec);
-	i = -1;
-	while (++i < data_exec->data.ncmd)
+	//verifier error
+	if (init_pipe(data_exec, &pipe) == ERROR)
+		return (perror("error process"), ft_free_error(data_exec, pipe), ERROR);
+	i = 0;
+	while (i < data_exec->ncmd)
 	{
-		pid = fork();
-		if (pid == -1)
+		pid[i] = fork();
+		if (pid[i] == -1)
+		{
 			return (perror("Error process"),
-					ft_free_int(data_exec, -1), exit(-1), -1);
-		if (pid == 0)
-			ft_pipe_action(&data_exec[i], i);
-		else
-			pids[i] = pid;
+				ft_free_error(data_exec, pipe), exit(-1), ERROR);
+		}
+		if (pid[i] == 0)
+		{
+			if (is_a_builtin(data_exec[i].cmd) == 0)
+				multexec_with_builtin(&data_exec[i], i, pipe);
+			else
+				ft_pipe_action(&data_exec[i], pipe, i);
+		}
+		i++;
 	}
-	ft_close_all(data_exec);
+	ft_close_pipes(data_exec, pipe);
 	i = -1;
-	while (++i < data_exec->data.ncmd)
-		waitpid(pids[i], NULL, 0);
-	ft_free_int(data_exec, -1);
+	while (++i < data_exec->ncmd)
+		waitpid(pid[i], NULL, 0);
+		// if (data_exec[i].need2wait == 1)
+	ft_free_mult_ex(data_exec);
 	return (0);
 }

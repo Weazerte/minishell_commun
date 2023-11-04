@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 16:38:47 by eaubry            #+#    #+#             */
-/*   Updated: 2023/10/31 14:43:32 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/04 20:56:06 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	print_error(int error, const char *arg)
 {
-	int		i;
+	int	i;
 
 	if (error == -1)
 		ft_putstr_fd("export: not valid in this context: ", STDERR);
@@ -30,7 +30,7 @@ static int	print_error(int error, const char *arg)
 	return (ERROR);
 }
 
-int			env_add(char *line, t_env *lst_env)
+int	env_add(char *line, t_env *lst_env)
 {
 	t_env	*new;
 	t_env	*tmp;
@@ -40,7 +40,8 @@ int			env_add(char *line, t_env *lst_env)
 		lst_env->env_line = ft_strdup(line);
 		return (SUCCESS);
 	}
-	if (!(new = malloc(sizeof(t_env))))
+	new = malloc(sizeof(t_env));
+	if (!new)
 		return (-1);
 	new->env_line = ft_strdup(line);
 	while (lst_env && lst_env->next && lst_env->next->next)
@@ -51,9 +52,9 @@ int			env_add(char *line, t_env *lst_env)
 	return (SUCCESS);
 }
 
-char		*get_name_in_env(char *dest, const char *src)
+char	*get_name_in_env(char *dest, const char *src)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (src[i] && src[i] != '=' && ft_strlen(src) < BUFF_SIZE)
@@ -65,7 +66,7 @@ char		*get_name_in_env(char *dest, const char *src)
 	return (dest);
 }
 
-int			is_already_in_env(t_env *env, char *args)
+int	is_already_in_env(t_env *env, char *args)
 {
 	char	var_name[BUFF_SIZE];
 	char	env_name[BUFF_SIZE];
@@ -85,10 +86,10 @@ int			is_already_in_env(t_env *env, char *args)
 	return (SUCCESS);
 }
 
-int			export_builtin(char **args, t_env *lst_env, t_env *lst_secret)
+int	export_builtin(char **args, t_env *lst_env, t_env *lst_secret)
 {
-	int		new_env;
-	int		error_ret;
+	int	new_env;
+	int	error_ret;
 
 	new_env = 0;
 	if (!args[1])
@@ -102,7 +103,7 @@ int			export_builtin(char **args, t_env *lst_env, t_env *lst_secret)
 			return (print_error(error_ret, args[1]));
 		if (error_ret == 2)
 			new_env = 1;
-		else 
+		else
 			is_already_in_env(lst_env, args[1]);
 		if (new_env == 0)
 		{

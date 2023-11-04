@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/03 22:02:19 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/04 20:33:38 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,16 @@ typedef struct s_env
     struct s_env   *next;
 } t_env;
 
-typedef struct s_data
-{
-	int pipe;
-	int ncmd;
-}t_data;
-
 typedef struct s_cmds
 {
-    char    *cmd;
-    int infile;
-    int outfile;
+    char    *cmd; //le prompt du read line original avec si besoin le expend precise
+    int infile; // 1 de base et autre si < ou <<
+    int outfile; //0 de base et autre si > ou >>
     char **env;
-    t_env *secret_lst_env;
+    int exit;
+    int ncmd;
+    t_env *secret_lst_env; // lenvironement sous forme de liste chaine : je men occupe 
     t_env *lst_env;
-    t_data  data;
 } t_cmds;
 
 char		*check_quotes(char *str);
@@ -97,8 +92,6 @@ int		operator_parse(char *str, char op);
 
 size_t		ft_strlen(const char *s);
 
-char		*ft_strdup(const char *s);
-
 char 		*ft_strndup(const char *s, size_t n);
 
 char 		*split_env(char *str);
@@ -113,41 +106,55 @@ void	    ft_putinfd(char *content, int fd);
 
 void	    ft_putinfd_n(char *content, int fd);
 
-int			secret_env_init(t_env *lst_secret, char **env);
+int		    exec(t_cmds **data_exec);
 
 int			env_init(t_env **lst_env, char **env);
 
-int         env_builtin(t_env *lst_env);
+int	    ft_env_lstsize(t_env *lst);
+
+int         env_builtin(t_env *lst_env, int fd);
 
 char	    *ft_path_bin(char *cmd, t_env *lst_env);
 
-void	    echo_builtin(int fd, char *cmd);
+void	    echo_builtin(int fd, char **args);
 
 void		print_ordered_secret_env(t_env *env);
 
 int			unset_builtin(char **a, t_env *lst_env);
 
-int	        exit_builtin(char **cmd);
+int	        exit_builtin(t_cmds *data_exec, char **cmd);
 
 int			cd_builtin(char **args, t_env *lst_env);
 
 int			export_builtin(char **args, t_env *lst_env, t_env *lst_secret);
 
-int		    pwd_builitn(void);
+int		    pwd_builitn(int fd);
+
+void	    multexec_with_builtin(t_cmds *data_exec, int i, int **pipe);
 
 int	        exec_with_builtin(t_cmds *data_exec);
 
+void	    ft_free_error(t_cmds *data, int **pipe);
+
+void	    ft_free_one_ex(t_cmds *data);
+
 int	        is_a_builtin(char *cmd);
 
-void	    ft_make_thing(t_cmds *data_exec, int i, int read_pipe, int write_pipe);
+void	    ft_free_mult_ex(t_cmds *data);
 
-void	    ft_make_thing_two(t_cmds *data_exec, int i, int read_pipe, int write_pipe);
+int	        init_pipe(t_cmds *data_exec, int ***pip);
 
-void	    ft_first_pipe(t_cmds *data_exec, int i);
+void	    ft_pipe_action(t_cmds *data_exec, int **pipe, int i);
 
-void	    ft_inter_pipe(t_cmds *data_exec, int i);
+void	    ft_multexec_noargs(t_cmds *data_exec, int read_pipe, int write_pipe);
 
-void        ft_last_pipe(t_cmds *data_exec, int i);
+void	    ft_multexec_args(t_cmds *data_exec, int read_pipe, int write_pipe);
+
+void	    ft_first_pipe(t_cmds *data_exec, int **pip);
+
+void	    ft_inter_pipe(t_cmds *data_exec, int **pip, int i);
+
+void	    ft_last_pipe(t_cmds *data_exec, int **pip, int i);
 
 void	    exec_without_args(t_cmds *data_exec, int read_pipe, int write_pipe);
 
@@ -155,7 +162,7 @@ void	    exec_with_args(t_cmds *data_exec, int read_pipe, int write_pipe);
 
 int	        make_all_exec(t_cmds *data_exec);
 
-char	    **ft_split_dos(char *s, char c, char *exe);
+void	    ft_free_cmd(char *str, char **tab);
 
 char	    *ft_find_bin(char **tab);
 
@@ -167,13 +174,9 @@ char	    *ft_path_bin(char *cmd, t_env *lst_env);
 
 void	    ft_free_list(char **father);
 
-void	    ft_free_tabx2(char **str);
+void	    ft_close_pipes(t_cmds *data_exec, int **pipe);
 
-void	    ft_free_tabx2(char **str);
-
-void	    ft_close_all(t_cmds *data_exec);
-
-void	    ft_free_int(t_cmds *data_exec, int o);
+void	    ft_free_error(t_cmds *data, int **pipe);
 
 void	    ft_close_fd(int *fd);
 
