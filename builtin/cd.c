@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 14:48:10 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/04 20:55:36 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/06 22:06:45 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,6 @@ int	cd_builtin(char **args, t_env *lst_env)
 			cd_ret *= -1;
 		if (cd_ret != 0)
 			p_error(args);
-	}
-	while (lst_env->next)
-	{
-		if (ft_strncmp(lst_env->env_line, "PWD", 3) == 0)
-			printf("%s\n", lst_env->env_line);
-		lst_env = lst_env->next;
 	}
 	return (cd_ret);
 }

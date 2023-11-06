@@ -10,7 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	=	exec/builtin.c exec/ft_free.c exec/pipe_exec.c exec/one_exec.c exec/mult_exec.c exec/main.c exec/ft_split_spec.c exec/exec_tools.c exec/clean_exec.c \
+SRCS	=	main/main.c \
+			exec/builtin.c exec/ft_free.c exec/pipe_exec.c exec/one_exec.c exec/mult_exec.c exec/exec.c exec/ft_split_spec.c exec/exec_tools.c exec/clean_exec.c \
 			env/shellLVL.c env/get_env.c env/ft_putinfd.c env/env.c env/env_in_order.c \
 			builtin/echo.c builtin/cd.c builtin/env.c builtin/exit.c builtin/export.c builtin/pwd.c builtin/unset.c \
 			parse/parse_main.c parse/parse_utils2.c parse/parse_syntax_quotes.c parse/parse_is_utils.c parse/parse_utils.c parse/parse_expand.c parse/parse_signal.c parse/parse_heredoc.c parse/parse_heredoc_utils.c parse/parse_cmd.c\

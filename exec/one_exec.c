@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:25:22 by mderkaou          #+#    #+#             */
-/*   Updated: 2023/11/04 16:42:18 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/06 22:03:49 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	exec_with_args(t_cmds *data_exec, int read_pipe, int write_pipe)
 	char	**args;
 	char	*path;
 
-	args = ft_split(data_exec->cmd, ' ');
+	args = ft_split(data_exec->cmd, -7);
 	path = ft_path_bin(args[0], data_exec->lst_env);
 	if (!path || !args)
 	{

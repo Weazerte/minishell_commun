@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:24:33 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/04 18:46:00 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/06 22:04:50 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ char	*ft_path_bin(char *cmd, t_env *lst_env)
 	if (path == NULL)
 		return (NULL);
 	path = ft_cut_path(path);
-	// tab = ft_split_dos(path, ':', cmd);
 	tab = ft_split(path, ':');
 	tab = ft_join_tab_cmd(tab, cmd);
 	if (tab == NULL)

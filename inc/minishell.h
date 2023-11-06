@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/06 21:11:18 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/06 22:03:08 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ typedef struct s_cmds
 
 int					ft_tab_len(char **env);
 
+void				exec(t_cmds **data_exec);
+
 int					ft_env_lstsize(t_env *lst);
 
 void				ft_free_one_ex(t_cmds *data);
@@ -105,7 +107,7 @@ int					export_builtin(char **args, t_env *lst_env,
 
 int					pwd_builitn(int fd);
 
-int					exec_with_builtin(t_cmds *data_exec);
+void				exec_with_builtin(t_cmds *data_exec);
 
 void				multexec_with_builtin(t_cmds *data_exec, int i, int **pipe);
 

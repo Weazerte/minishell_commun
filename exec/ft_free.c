@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 13:49:37 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/04 20:28:23 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/06 22:09:47 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	ft_free_one_ex(t_cmds *data)
 		close(data->infile);
 	if (data->outfile != 0)
 		close(data->outfile);
-	if (data->lst_env)
-		ft_free_lst(data->lst_env);
-	if (data)
-		ft_memdel(data);
+	// if (data->lst_env)
+	// 	ft_free_lst(data->lst_env);
+	// if (data)
+	// 	ft_memdel(data);
 }
 
 void	ft_free_mult_ex(t_cmds *data)
@@ -55,8 +55,8 @@ void	ft_free_mult_ex(t_cmds *data)
 		// 	close(data[i].infile);
 		// if (data[i].outfile != 0)
 		// 	close(data[i].outfile);
-		if (data[i].lst_env)
-			ft_free_lst(data[i].lst_env);
+		// if (data[i].lst_env)
+		// 	ft_free_lst(data[i].lst_env);
 	}
 }
 

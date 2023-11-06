@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:47:24 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/04 20:05:01 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/06 21:58:00 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,30 +31,27 @@ int	is_a_builtin(char *cmd)
 	return (1);
 }
 
-int	exec_with_builtin(t_cmds *data_exec)
+void	exec_with_builtin(t_cmds *data_exec)
 {
 	char **cmd_args;
-	int	v_ret;
 
-	v_ret = 0;
 	cmd_args = ft_split(data_exec->cmd, ' ');
 	if (ft_strncmp(data_exec->cmd, "echo", 4) == 0)
 		echo_builtin(data_exec->outfile, cmd_args);
 	else if (ft_strncmp(data_exec->cmd, "cd", 2) == 0)
-		v_ret = cd_builtin(cmd_args, data_exec->lst_env);
+		cd_builtin(cmd_args, data_exec->lst_env);
 	else if (ft_strncmp(data_exec->cmd, "env", 3) == 0)
-		v_ret = env_builtin(data_exec->lst_env, data_exec->outfile);
+		env_builtin(data_exec->lst_env, data_exec->outfile);
 	else if (ft_strncmp(data_exec->cmd, "exit", 4) == 0)
-		v_ret = exit_builtin(data_exec, cmd_args);
+		exit_builtin(data_exec, cmd_args);
 	else if (ft_strncmp(data_exec->cmd, "unset", 5) == 0)
-		v_ret = unset_builtin(cmd_args, data_exec->lst_env);
+		unset_builtin(cmd_args, data_exec->lst_env);
 	else if (ft_strncmp(data_exec->cmd, "export", 6) == 0)
-		v_ret = export_builtin(cmd_args, data_exec->lst_env, data_exec->secret_lst_env);
+		export_builtin(cmd_args, data_exec->lst_env, data_exec->secret_lst_env);
 	else if (ft_strncmp(data_exec->cmd, "pwd", 3) == 0)
-		v_ret = pwd_builitn(data_exec->outfile);
+		pwd_builitn(data_exec->outfile);
 	if (cmd_args)
 		free_tab(cmd_args);
-	return (v_ret);
 }
 
 void	ft_close_useless_pipe(t_cmds *data, int **pipe, int  i)
@@ -79,7 +76,7 @@ void	multexec_with_builtin(t_cmds *data_exec, int i, int **pipe)
 {
 	char **cmd_args;
 
-	cmd_args = ft_split(data_exec->cmd, ' ');
+	cmd_args = ft_split(data_exec->cmd, -7);
 	if (i < (data_exec->ncmd - 1))
 	{
 		ft_close_useless_pipe(data_exec, pipe, i);
