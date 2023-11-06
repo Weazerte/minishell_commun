@@ -1,52 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_quotes.c                                     :+:      :+:    :+:   */
+/*   parse_signal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/03 19:28:08 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/03 22:00:15 by mapierre         ###   ########.fr       */
+/*   Created: 2023/11/06 16:54:40 by mapierre          #+#    #+#             */
+/*   Updated: 2023/11/06 18:47:40 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*check_quotes(char *str)
+void	is_inside_sig(int sig)
 {
-	int		i;
-	char	c;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			c = str[i++];
-			while (str[i] && str[i] != c)
-			{
-				if (c == '\'')
-					str[i] *= -1;
-				i++;
-			}
-			if (!str[i])
-				return (free(str), NULL);
-		}
-		i++;
-	}
-	return (str);
+	if (sig == SIGINT)
+		write(1, "\n", 1);
 }
 
-char	*ft_positive(char *str)
+void	here_sig(int sig)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] < 0)
-			str[i] *= -1;
-		i++;
-	}
-	return (str);
+	if (sig == SIGINT)
+		exit(1);
 }

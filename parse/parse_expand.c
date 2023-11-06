@@ -6,7 +6,7 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 18:28:19 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/03 22:00:31 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:47:40 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*find_var_name(char *str, int i)
 	return (var);
 }
 
-char	*build_expended_line(char *before, char *value, char *after)
+char	*build_expanded_line(char *before, char *value, char *after)
 {
 	int		i;
 	char	*expanded;
@@ -69,6 +69,7 @@ char	*build_expended_line(char *before, char *value, char *after)
 	ft_strlcat(expanded, after, i + 1);
 	return (expanded);
 }
+
 char	*split_env(char *str, int dollar_pos)
 {
 	char	*before;
@@ -79,11 +80,11 @@ char	*split_env(char *str, int dollar_pos)
 	before = ft_strndup(str, dollar_pos);
 	to_expand = find_var_name(str, dollar_pos + 1);
 	after = ft_strndup(&str[dollar_pos + 1 + ft_strlen(to_expand)],
-		ft_strlen(str));
+			ft_strlen(str));
 	if (str[dollar_pos + 1] == '?')
-		expanded = build_expended_line(before, to_expand, after);
+		expanded = build_expanded_line(before, to_expand, after);
 	else
-		expanded = build_expended_line(before, getenv(to_expand), after);
+		expanded = build_expanded_line(before, getenv(to_expand), after);
 	free(before);
 	free(to_expand);
 	free(after);

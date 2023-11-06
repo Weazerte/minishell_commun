@@ -6,99 +6,11 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:17 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/03 22:00:10 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:47:40 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-size_t	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strdup(const char *s)
-{
-	int		i;
-	char	*dup;
-
-	i = ft_strlen(s);
-	dup = malloc((i + 1) * sizeof(char));
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-char	*ft_strndup(const char *s, size_t n)
-{
-	size_t	i;
-	char	*dup;
-
-	i = 0;
-	while (s[i] && i < n)
-	{
-		i++;
-	}
-	dup = (char *)malloc((i + 1) * sizeof(char));
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (s[i] && i < n)
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
-{
-	unsigned int	i;
-	unsigned int	j;
-	unsigned int	k;
-
-	i = ft_strlen(dest);
-	j = ft_strlen(src);
-	k = 0;
-	if (size <= i || size == 0)
-		return (j + size);
-	while (i + k < size - 1 && src[k] != '\0')
-	{
-		dest[i + k] = src[k];
-		k++;
-	}
-	dest[i + k] = '\0';
-	return (i + j);
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	unsigned int	i;
-
-	i = 0;
-	while ((s1[i] || s2[i]) && (i < n))
-	{
-		if ((unsigned char)s1[i] == (unsigned char)s2[i])
-			i++;
-		else
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-	}
-	return (0);
-}
-/////////////////////////////////////////LIBFT/////////////////////////
 
 char	*dollar_qm(void)
 {
@@ -110,4 +22,75 @@ char	*dollar_qm(void)
 	var[0] = '0' + DQM;
 	var[1] = '\0';
 	return (var);
+}
+
+char	*negative_doublequotes(char *line)
+{
+	int		i;
+	char	c;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == '"')
+		{
+			c = line[i++];
+			while (line[i] && line[i] != c)
+				line[i++] *= -1;
+		}
+		i++;
+	}
+	return (line);
+}
+
+void	skip_spaces(const char **line)
+{
+	while (is_space(**line))
+		(*line)++;
+}
+
+char	*clean_spaces_quotes(char *dest, const char *src, int *j, int i)
+{
+	static int		in_quotes;
+	char			current_char;
+
+	current_char = src[i];
+	while (current_char != '\0')
+	{
+		if (current_char == '\"' || current_char == '\'')
+			in_quotes = !in_quotes;
+		else if (!in_quotes && is_space(current_char))
+		{
+			if (src[i +1] != '|' && !is_space(src[i +1]) && src[i +1] != '\0')
+				dest[(*j)++] = -7;
+		}
+		else if (current_char == '|')
+		{
+			while (*j > 0 && is_space(dest[*j - 1]))
+				(*j)--;
+			dest[(*j)++] = current_char;
+		}
+		else
+			dest[(*j)++] = current_char;
+		current_char = src[++i];
+	}
+	dest[*j] = '\0';
+	return (dest);
+}
+
+char	*rmv_spaces_quotes(char *line)
+{
+	char	*new_line;
+	int		j;
+
+	j = 0;
+	new_line = (char *)malloc(strlen(line) + 1);
+	if (!new_line)
+		return (NULL);
+	skip_spaces((const char **)&line);
+	new_line = clean_spaces_quotes(new_line, line, &j, 0);
+	while (j > 0 && is_space(new_line[j - 1]))
+		j--;
+	new_line[j] = '\0';
+	return (new_line);
 }

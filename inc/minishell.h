@@ -3,36 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/06 12:18:17 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/06 19:05:44 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include "../libft/libft.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <unistd.h>
-#include <string.h>
-# include <fcntl.h>
+# include "../libft/libft.h"
 # include <dirent.h>
-# include <sys/wait.h>
-# include <limits.h>
 # include <errno.h>
+# include <fcntl.h>
+# include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
-#define MAGENTA "\033[95m"
-#define RESET   "\033[0m"
-#define DQM 1
+# define MAGENTA "\033[95m"
+# define RESET "\033[0m"
+# define DQM 1
 
 # define EMPTY 0
-# define CMD 1 
+# define CMD 1
 # define ARG 2
 # define TRUNC 3
 # define APPEND 4
@@ -56,164 +56,179 @@
 
 typedef struct s_env
 {
-    char    *env_line;
-    struct s_env   *next;
-} t_env;
+	char			*env_line;
+	struct s_env	*next;
+}					t_env;
 
 typedef struct s_cmds
 {
-    char    *cmd; //le prompt du read line original avec si besoin le expend precise
-    int infile; // 1 de base et autre si < ou <<
-    int outfile; //0 de base et autre si > ou >>
-    char **env;
-    int exit;
-    int ncmd;
-    t_env *secret_lst_env; // lenvironement sous forme de liste chaine : je men occupe 
-    t_env *lst_env;
-} t_cmds;
+	char *cmd;  
+		// le prompt du read line original avec si besoin le expend precise
+	int infile;  // 1 de base et autre si < ou <<
+	int outfile; // 0 de base et autre si > ou >>
+	char			**env;
+	int				exit;
+	int				ncmd;
+	t_env *secret_lst_env;
+		// lenvironement sous forme de liste chaine : je men occupe
+	t_env			*lst_env;
+}					t_cmds;
 
-char		*check_quotes(char *str);
+int					ft_tab_len(char **env);
 
-int		syntax_parse(char *str);
+int					ft_env_lstsize(t_env *lst);
 
-int		syntax_error(char c);
+void				ft_free_one_ex(t_cmds *data);
 
-int		is_digit(int c);
+char				**env_to_tab(t_env *lst_env);
 
-int		is_alpha(int c);
+void				ft_putinfd(char *content, int fd);
 
-int		is_redirection(int c);
+void				ft_putinfd_n(char *content, int fd);
 
-int		is_operator(char c);
+int					env_init(t_env **lst_env, char **env);
 
-int		is_space(char c);
+int					env_builtin(t_env *lst_env, int fd);
 
-int		operator_parse(char *str, char op);
+char				*ft_path_bin(char *cmd, t_env *lst_env);
 
-size_t		ft_strlen(const char *s);
+void				echo_builtin(int fd, char **args);
 
-char 		*ft_strndup(const char *s, size_t n);
+void				print_ordered_secret_env(t_env *env);
 
-char 		*split_env(char *str);
+int					unset_builtin(char **a, t_env *lst_env);
 
-char		*find_var_name(char *str, int i);
+int					exit_builtin(t_cmds *data_exec, char **cmd);
 
-int		    find_pos_dollar(char *str);
+int					cd_builtin(char **args, t_env *lst_env);
 
-unsigned int	ft_strlcat(char *dest, char *src, unsigned int size);
+int					export_builtin(char **args, t_env *lst_env,
+						t_env *lst_secret);
 
-void	    ft_putinfd(char *content, int fd);
+int					pwd_builitn(int fd);
 
-void	    ft_putinfd_n(char *content, int fd);
+int					exec_with_builtin(t_cmds *data_exec);
 
-int		    exec(t_cmds **data_exec);
+void				multexec_with_builtin(t_cmds *data_exec, int i, int **pipe);
 
-int			env_init(t_env **lst_env, char **env);
+int					is_a_builtin(char *cmd);
 
-int	        ft_env_lstsize(t_env *lst);
+void				ft_multexec_args(t_cmds *data_exec, int read_pipe,
+						int write_pipe);
 
-int         env_builtin(t_env *lst_env, int fd);
+void				ft_multexec_noargs(t_cmds *data_exec, int read_pipe,
+						int write_pipe);
 
-char	    *ft_path_bin(char *cmd, t_env *lst_env);
+void				ft_first_pipe(t_cmds *data_exec, int **pipe);
 
-void	    echo_builtin(int fd, char **args);
+void				ft_inter_pipe(t_cmds *data_exec, int **pipe, int i);
 
-void		print_ordered_secret_env(t_env *env);
+void				ft_last_pipe(t_cmds *data_exec, int **pipe, int i);
 
-int			unset_builtin(char **a, t_env *lst_env);
+void				exec_without_args(t_cmds *data_exec, int read_pipe,
+						int write_pipe);
 
-int	        exit_builtin(t_cmds *data_exec, char **cmd);
+void				exec_with_args(t_cmds *data_exec, int read_pipe,
+						int write_pipe);
 
-int			cd_builtin(char **args, t_env *lst_env);
+int					make_all_exec(t_cmds *data_exec);
 
-int			export_builtin(char **args, t_env *lst_env, t_env *lst_secret);
+char				**ft_split_dos(char *s, char c, char *exe);
 
-int		    pwd_builitn(int fd);
+char				*ft_find_bin(char **tab);
 
-void	    multexec_with_builtin(t_cmds *data_exec, int i, int **pipe);
+char				*ft_cut_path(char *path);
 
-int	        exec_with_builtin(t_cmds *data_exec);
+char				*ft_path(t_env *lst_env);
 
-void	    ft_free_error(t_cmds *data, int **pipe);
+void				ft_free_list(char **father);
 
-void	    ft_free_one_ex(t_cmds *data);
+void				ft_close_pipes(t_cmds *data_exec, int **pipe);
 
-int	        is_a_builtin(char *cmd);
+void				ft_free_error(t_cmds *data, int **pipe);
 
-void	    ft_free_mult_ex(t_cmds *data);
+void				ft_free_cmd(char *str, char **tab);
 
-int	        init_pipe(t_cmds *data_exec, int ***pip);
+void				ft_free_mult_ex(t_cmds *data);
 
-void	    ft_pipe_action(t_cmds *data_exec, int **pipe, int i);
+void				ft_close_fd(int *fd);
 
-void	    ft_multexec_noargs(t_cmds *data_exec, int read_pipe, int write_pipe);
+int					ft_verif_space(char *str);
 
-void	    ft_multexec_args(t_cmds *data_exec, int read_pipe, int write_pipe);
+void				increment_shell_level(t_env *lst_env);
 
-void	    ft_first_pipe(t_cmds *data_exec, int **pip);
+char				*env_to_str(t_env *lst_env);
 
-void	    ft_inter_pipe(t_cmds *data_exec, int **pip, int i);
+size_t				size_env(t_env *lst_env);
 
-void	    ft_last_pipe(t_cmds *data_exec, int **pip, int i);
+char				*get_env_value(char *arg, t_env *lst_env);
 
-void	    exec_without_args(t_cmds *data_exec, int read_pipe, int write_pipe);
-
-void	    exec_with_args(t_cmds *data_exec, int read_pipe, int write_pipe);
-
-int	        make_all_exec(t_cmds *data_exec);
-
-void	    ft_free_cmd(char *str, char **tab);
-
-char	    *ft_find_bin(char **tab);
-
-char	    *ft_cut_path(char *path);
-
-char	    *ft_path(t_env *lst_env);
-
-char	    *ft_path_bin(char *cmd, t_env *lst_env);
-
-void	    ft_free_list(char **father);
-
-void	    ft_close_pipes(t_cmds *data_exec, int **pipe);
-
-void	    ft_free_error(t_cmds *data, int **pipe);
-
-void	    ft_close_fd(int *fd);
-
-int	        ft_verif_space(char *str);
-
-void		increment_shell_level(t_env *lst_env);
-
-char		*env_to_str(t_env *lst_env);
-
-size_t		size_env(t_env *lst_env);
-
-char	    *get_env_value(char *arg, t_env *lst_env);
-
-char		*get_name_in_env(char *dest, const char *src);
-
-void        free_tab(char **tab);
-
-int			is_already_in_env(t_env *env, char *args);
-
-int			env_add(char *line, t_env *lst_env);
-
-int		    is_valid_env(const char *env);
-
-void        ft_free_lst(t_env *lst);
-
-int         find_next_pipe(char *str);
-
-char        **line_to_tab(char *line);
-
-t_cmds      *tab_to_struct(char **cmds);
-
-char        *ft_positive(char *str);
-
-char        *ft_parsing(char *start_line);
-
-char		*dollar_qm(void);
-
-char		*expand_all(char *str);
+char				*get_name_in_env(char *dest, const char *src);
+
+void				free_tab(char **tab);
+
+int					is_already_in_env(t_env *env, char *args);
+
+int					env_add(char *line, t_env *lst_env);
+
+int					is_valid_env(const char *env);
+
+void				ft_free_lst(t_env *lst);
+
+void				ft_pipe_action(t_cmds *data_exec, int **pipe, int i);
+
+int					init_pipe(t_cmds *data_exec, int ***pipe);
+
+char				*check_quotes(char *str);
+int					syntax_parse(char *str);
+int					syntax_error(char c);
+int					is_digit(int c);
+int					is_alpha(int c);
+int					is_redirection(int c);
+int					is_operator(char c);
+int					is_space(char c);
+int					operator_parse(char *str, char op);
+char				*split_env(char *str, int dollar_pos);
+char				*find_var_name(char *str, int i);
+int					find_pos_dollar(char *str);
+int					find_nbcmd(char *str);
+int					find_next_pipe(char *str);
+char				*ft_positive(char *str);
+int					free_struct(t_cmds *data_struct);
+char				*dollar_qm(void);
+char				*expand_all(char *str);
+char				*build_expanded_line(char *before, char *value,
+						char *after);
+char				*rmv_spaces_quotes(char *line);
+char				*negative_doublequotes(char *line);
+void				here_sig(int sig);
+void				is_inside_sig(int sig);
+char				*ft_strnstr(const char *big, const char *little,
+						size_t len);
+char				*delimit_to_path(char *line, char *limiter, char *filename);
+char				*free_strs(char *str1, char *str2, char *str3);
+char				*path_file(void);
+char				*has_heredoc(char *line);
+char				*find_multi_heredoc(char *line);
+char				*find_heredoc(char *line);
+char				*do_heredoc(char *line);
+char				*find_delimit(char *line);
+void				ft_exec_heredoc(char *limiter, char *file);
+void				inside_heredoc(char *limiter, char *file);
+char				*ft_parsing(char *start_line);
+int					ft_strcmp(char *s1, char *s2);
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
+t_cmds				*init_struct_cmds(int nbcmd);
+t_cmds				*line_to_structs(char *line);
+t_cmds				*free_struct_error(t_cmds *struct_cmds, int pos);
+char				*create_and_clean_split(char *line, int start, int len);
+t_cmds				*process_splits(char *line, t_cmds *struct_cmds, int *start,
+						int *i);
+void				skip_spaces(const char **line);
+char				*clean_spaces_quotes(char *dest, const char *src, int *j,
+						int i);
+char				*ft_substr(char const *s, unsigned int start, size_t len);
+char                *ft_strndup(const char *s, size_t n);
+unsigned int	     ft_strlcat(char *dest, char *src, unsigned int size);
 
 #endif

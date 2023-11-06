@@ -1,16 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_syntax.c                                     :+:      :+:    :+:   */
+/*   parse_syntax_quotes.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:20:58 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/03 22:00:12 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:47:40 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+char	*check_quotes(char *str)
+{
+	int		i;
+	char	c;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == '\'')
+		{
+			c = str[i++];
+			while (str[i] && str[i] != c)
+			{
+				if (c == '\'')
+					str[i] *= -1;
+				i++;
+			}
+			if (!str[i])
+				return (free(str), NULL);
+		}
+		i++;
+	}
+	return (str);
+}
+
+char	*ft_positive(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] < -7)
+			str[i] *= -1;
+		i++;
+	}
+	return (str);
+}
 
 int	operator_parse(char *str, char op)
 {
