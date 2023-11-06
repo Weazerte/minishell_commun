@@ -6,7 +6,7 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/06 19:05:44 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/06 19:56:28 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,13 @@ typedef struct s_env
 
 typedef struct s_cmds
 {
-	char *cmd;  
-		// le prompt du read line original avec si besoin le expend precise
-	int infile;  // 1 de base et autre si < ou <<
-	int outfile; // 0 de base et autre si > ou >>
+	char            *cmd;  
+	int             infile;
+	int             outfile;
 	char			**env;
 	int				exit;
 	int				ncmd;
-	t_env *secret_lst_env;
-		// lenvironement sous forme de liste chaine : je men occupe
+	t_env           *secret_lst_env;
 	t_env			*lst_env;
 }					t_cmds;
 
@@ -230,5 +228,9 @@ char				*clean_spaces_quotes(char *dest, const char *src, int *j,
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char                *ft_strndup(const char *s, size_t n);
 unsigned int	     ft_strlcat(char *dest, char *src, unsigned int size);
+void	ft_exit(void);
+void	handle_sigint(int sig);
+void init_signal(void);
+t_cmds *do_parsing(char *start_line);
 
 #endif

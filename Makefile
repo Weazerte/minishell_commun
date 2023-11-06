@@ -40,6 +40,9 @@ clean:
 fclean:	clean
 	rm -f ${NAME}
 	make -C libft fclean
+	
+val:		$(NAME)
+		valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --suppressions=rl_ignore --track-origins=yes ./${NAME}
 
 re:	fclean all
 

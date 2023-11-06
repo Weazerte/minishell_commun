@@ -6,46 +6,26 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:23 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/06 18:47:40 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/06 19:45:38 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	write(1, "\nMinishell> ", 12);
-}
-
-void	ft_exit(void)
-{
-	write(1, "\nExit\n", 6);
-	exit(0);
-}
 char	*ft_parsing(char *start_line)
 {
 	char	*line;
 
 	line = ft_strdup(start_line);
 	if (!line)
-	{
-		ft_exit();
-		return (NULL);
-	}
+		return (ft_exit(), NULL);
 	if (*line)
 		add_history(line);
 	line = check_quotes(line);
 	if (!line)
-	{
-		printf("quote error\n");
-		return (NULL);
-	}
+		return (printf("quote error\n"), NULL);
 	if (!syntax_parse(line))
-	{
-		free(line);
-		return (NULL);
-	}
+		return (free(line), NULL);
 	if (has_heredoc(line))
 	{
 		line = negative_doublequotes(line);
@@ -54,7 +34,6 @@ char	*ft_parsing(char *start_line)
 	}
 	if (find_pos_dollar(line) != -1)
 		line = expand_all(line);
-	//line = ft_positive(line);
 	return (line);
 }
 int	free_struct(t_cmds *data_struct)
@@ -79,6 +58,7 @@ int	main(void)
 	char				*start_line;
 	t_cmds				*data_exec;
 	int					i;
+	int					ncmd;
 
 	sa.sa_handler = handle_sigint;
 	sigemptyset(&sa.sa_mask);
@@ -93,7 +73,9 @@ int	main(void)
 		line = ft_parsing(start_line);
 		if (!line)
 			continue ;
-		data_exec = line_to_structs(negative_doublequotes(line));
+		line = negative_doublequotes(line);
+		ncmd = find_nbcmd(line);
+		data_exec = line_to_structs(line);
 		if (!data_exec)
 		{
 			free(line);
@@ -104,6 +86,7 @@ int	main(void)
 		while (data_exec[i].cmd)
 		{
 			data_exec[i].cmd = ft_positive(data_exec[i].cmd);
+			data_exec[i].ncmd = ncmd;
 			printf("FINAL TEST STRUCTURE ..... TAB [%d] = [%s]\n", i,
 				data_exec[i].cmd);
 			i++;
