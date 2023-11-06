@@ -6,7 +6,7 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/06 19:56:28 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/06 21:11:18 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ char				*path_file(void);
 char				*has_heredoc(char *line);
 char				*find_multi_heredoc(char *line);
 char				*find_heredoc(char *line);
-char				*do_heredoc(char *line);
+char				*do_heredoc(char *line, int i);
 char				*find_delimit(char *line);
 void				ft_exec_heredoc(char *limiter, char *file);
 void				inside_heredoc(char *limiter, char *file);

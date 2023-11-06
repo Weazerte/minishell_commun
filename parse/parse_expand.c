@@ -6,7 +6,7 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 18:28:19 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/06 18:47:40 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/06 20:53:00 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*find_var_name(char *str, int i)
 	if (!var)
 		return (NULL);
 	while (count < i)
-		var[j++] = str[count++];
+		var[j++] = (str[count++]);
 	var[j] = '\0';
 	return (var);
 }
@@ -56,7 +56,9 @@ char	*build_expanded_line(char *before, char *value, char *after)
 {
 	int		i;
 	char	*expanded;
+	int		j;
 
+	j = 0;
 	if (value == NULL)
 		value = "";
 	i = (ft_strlen(before) + ft_strlen(value) + ft_strlen(after));
@@ -64,6 +66,8 @@ char	*build_expanded_line(char *before, char *value, char *after)
 	if (!expanded)
 		return (NULL);
 	expanded[0] = '\0';
+	while (value[j])
+		value[j++] *= -1;
 	ft_strlcat(expanded, before, ft_strlen(before) + 1);
 	ft_strlcat(expanded, value, ft_strlen(before) + ft_strlen(value) + 1);
 	ft_strlcat(expanded, after, i + 1);
