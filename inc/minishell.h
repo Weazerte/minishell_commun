@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/04 20:33:38 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/06 12:18:17 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char 		*split_env(char *str);
 
 char		*find_var_name(char *str, int i);
 
-size_t		find_pos_dollar(char *str);
+int		    find_pos_dollar(char *str);
 
 unsigned int	ft_strlcat(char *dest, char *src, unsigned int size);
 
@@ -110,7 +110,7 @@ int		    exec(t_cmds **data_exec);
 
 int			env_init(t_env **lst_env, char **env);
 
-int	    ft_env_lstsize(t_env *lst);
+int	        ft_env_lstsize(t_env *lst);
 
 int         env_builtin(t_env *lst_env, int fd);
 

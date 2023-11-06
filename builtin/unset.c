@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:31:47 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/04 20:52:40 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/06 12:12:06 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	unset_builtin_comp(char **a, t_env *lst_env, t_env *env, t_env *tmp)
 			tmp = env->next->next;
 			delete_node(lst_env, env->next);
 			env->next = tmp;
-			return (SUCCESS);
+			return ;
 		}
 		env = env->next;
 	}
@@ -67,6 +67,7 @@ int	unset_builtin(char **a, t_env *lst_env)
 		delete_node(lst_env, env);
 		return (SUCCESS);
 	}
+	tmp = NULL;
 	unset_builtin_comp(a, lst_env, env, tmp);
 	return (SUCCESS);
 }
