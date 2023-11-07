@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-char	*ft_parsing(char *start_line)
+char	*ft_parsing(char *start_line, t_env *backup_env)
 {
 	char	*line;
 
@@ -33,9 +33,10 @@ char	*ft_parsing(char *start_line)
 		line = negative_doublequotes(line);
 	}
 	if (find_pos_dollar(line) != -1)
-		line = expand_all(line);
+		line = expand_all(line, backup_env);
 	return (line);
 }
+
 int	free_struct(t_cmds *data_struct)
 {
 	int	i;
@@ -51,47 +52,28 @@ int	free_struct(t_cmds *data_struct)
 	free(data_struct);
 	return (0);
 }
-// int	main(void)
-// {
-// 	struct sigaction	sa;
-// 	char				*line;
-// 	char				*start_line;
-// 	t_cmds				*data_exec;
-// 	int					i;
-// 	int					ncmd;
 
-// 	sa.sa_handler = handle_sigint;
-// 	sigemptyset(&sa.sa_mask);
-// 	sa.sa_flags = SA_RESTART;
-// 	sigaction(SIGINT, &sa, NULL);
+char *ft_get_env(t_env *env_list, const char *name)
+{
+	size_t var_len;
+	char	*env_line;
+	char	*sign;
+	size_t	key_len;
 
-// 	while (1)
-// 	{
-// 		start_line = readline("Minishell> ");
-// 		if (!start_line)
-// 			ft_exit();
-// 		line = ft_parsing(start_line);
-// 		if (!line)
-// 			continue ;
-// 		line = negative_doublequotes(line);
-// 		ncmd = find_nbcmd(line);
-// 		data_exec = line_to_structs(line);
-// 		if (!data_exec)
-// 		{
-// 			free(line);
-// 			free_struct(data_exec);
-// 			break ;
-// 		}
-// 		i = 0;
-// 		while (data_exec[i].cmd)
-// 		{
-// 			data_exec[i].cmd = ft_positive(data_exec[i].cmd);
-// 			data_exec[i].ncmd = ncmd;
-// 			printf("FINAL TEST STRUCTURE ..... TAB [%d] = [%s]\n", i,
-// 				data_exec[i].cmd);
-// 			i++;
-// 		}
-// 		free_struct(data_exec);
-// 		free(line);
-// 	}
-// }
+	var_len = ft_strlen(name);
+	while (env_list != NULL)
+	{
+		env_line = env_list->env_line;
+		sign = ft_strchr(env_line, '=');
+		if (sign != NULL)
+		{
+			key_len = sign - env_line;
+			if (var_len == key_len && ft_strncmp(env_line, name, var_len) == 0)
+			{
+				return (sign + 1);
+			}
+		}
+		env_list = env_list->next;
+	}
+	return (NULL);
+}

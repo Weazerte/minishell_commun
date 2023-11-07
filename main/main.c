@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:18:18 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/07 18:36:15 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 19:07:54 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int exstatus;
 
-t_cmds *do_parsing(char *start_line)
+t_cmds *do_parsing(char *start_line, t_env *backup_env)
 {
     char *line;
     t_cmds *data_exec;
@@ -22,7 +22,7 @@ t_cmds *do_parsing(char *start_line)
 	int	i;
 
 	i = 0;
-    line = ft_parsing(start_line);
+    line = ft_parsing(start_line, backup_env);
     if (!line)
         return (NULL);
     line = negative_doublequotes(line);
@@ -61,7 +61,7 @@ int	main(int ac, char **av, char **env)
 		start_line = readline("Minishell> ");
 		if (!start_line)
 			ft_exit();
-		data_exec = do_parsing(start_line);
+		data_exec = do_parsing(start_line, backup_env);
         data_exec->lst_env = backup_env;
         data_exec->env = env_to_tab(data_exec->lst_env);
 		// for (int i = 0; data_exec[i].cmds != NULL; i++) {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/07 17:36:07 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 19:08:34 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ int					is_redirection(int c);
 int					is_operator(char c);
 int					is_space(char c);
 int					operator_parse(char *str, char op);
-char				*split_env(char *str, int dollar_pos);
+char				*split_env(char *str, int dollar_pos, t_env *backup_env);
 char				*find_var_name(char *str, int i);
 int					find_pos_dollar(char *str);
 int					find_nbcmd(char *str);
@@ -200,7 +200,7 @@ int					find_next_pipe(char *str);
 char				*ft_positive(char *str);
 int					free_struct(t_cmds *data_struct);
 char				*dollar_qm(void);
-char				*expand_all(char *str);
+char				*expand_all(char *str, t_env *backup_env);
 char				*build_expanded_line(char *before, char *value,
 						char *after);
 char				*rmv_spaces_quotes(char *line);
@@ -219,7 +219,7 @@ char				*do_heredoc(char *line, int i);
 char				*find_delimit(char *line);
 void				ft_exec_heredoc(char *limiter, char *file);
 void				inside_heredoc(char *limiter, char *file);
-char				*ft_parsing(char *start_line);
+char				*ft_parsing(char *start_line, t_env *backup_env);
 int					ft_strcmp(char *s1, char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 t_cmds				*init_struct_cmds(int nbcmd);
@@ -237,6 +237,8 @@ unsigned int	     ft_strlcat(char *dest, char *src, unsigned int size);
 void	ft_exit(void);
 void	handle_sigint(int sig);
 void init_signal(void);
-t_cmds *do_parsing(char *start_line);
+t_cmds *do_parsing(char *start_line, t_env *backup_env);
+char *ft_get_env(t_env *env_list, const char *name);
+
 
 #endif
