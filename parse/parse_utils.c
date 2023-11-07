@@ -6,7 +6,7 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:17 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/06 18:47:40 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:33:18 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*dollar_qm(void)
 	var = malloc(2);
 	if (!var)
 		return (NULL);
-	var[0] = '0' + DQM;
+	var[0] = '0' + exstatus;
 	var[1] = '\0';
 	return (var);
 }
