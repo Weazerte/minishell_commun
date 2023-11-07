@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:18:18 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/07 16:40:14 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 18:36:15 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_cmds *do_parsing(char *start_line)
     free (line);
     return (data_exec);
 }
+
 int	main(int ac, char **av, char **env)
 {
 	char	*start_line;
@@ -55,8 +56,7 @@ int	main(int ac, char **av, char **env)
 	init_signal();
     env_init(&backup_env, env);
     exit = 0;
-    exstatus = 0;
-	while (exit == 0)
+    while (exit == 0)
 	{
 		start_line = readline("Minishell> ");
 		if (!start_line)
@@ -68,7 +68,10 @@ int	main(int ac, char **av, char **env)
         // printf("STRUCT[%d] = [%s]\n", i, data_exec[i]);
         // }
         exec(&data_exec);
-        backup_env = data_exec->lst_env;
+        if (data_exec->ncmd != 1)
+            backup_env = data_exec[(data_exec->ncmd - 1)].lst_env;
+        else
+            backup_env = data_exec->lst_env;
         exit = data_exec->exit;
         if (data_exec)
             free(data_exec);

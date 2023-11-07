@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/07 16:33:08 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 17:36:07 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ typedef struct s_cmds
 
 int					ft_tab_len(char **env);
 
+void				ft_put_unknow_cmd(char *cmd);
+
 void				exec(t_cmds **data_exec);
 
 int					ft_env_lstsize(t_env *lst);
@@ -109,7 +111,7 @@ void				dup_and_close(int infile, int outfile);
 
 int					pwd_builitn(int fd);
 
-void				exec_with_builtin(t_cmds *data_exec);
+int				exec_with_builtin(t_cmds *data_exec);
 
 void				multexec_with_builtin(t_cmds *data_exec, int i, int **pipe);
 

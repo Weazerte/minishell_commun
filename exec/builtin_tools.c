@@ -1,39 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   builtin_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/20 14:12:46 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/07 17:29:02 by eaubry           ###   ########.fr       */
+/*   Created: 2023/11/07 17:34:47 by eaubry            #+#    #+#             */
+/*   Updated: 2023/11/07 17:39:20 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
+#include "../inc/minishell.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_put_unknow_cmd(char *cmd)
 {
-	size_t	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	if (str == 0)
-		return (0);
-	while (str[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
+	ft_putinfd("minishell:", STDERR);
+	ft_putinfd(cmd, STDERR);
+	ft_putinfd_n(": command not found", STDERR);
 }
-
-// int main(void)
-// {
-// 	int	i;
-
-// 	i = ft_strlen("echo");
-// 	printf("%d",i);
-// 	return (0);
-// }

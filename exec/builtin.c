@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:47:24 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/07 15:01:06 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 18:14:08 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,27 @@
 
 int	is_a_builtin(char *cmd)
 {
-	if (ft_strncmp(cmd, "echo", 4) == 0)
+	if (ft_strncmp(cmd, "echo", 4) == 0 && cmd[4] == -7)
 		return (0);
-	if (ft_strncmp(cmd, "cd", 2) == 0)
+	if (ft_strncmp(cmd, "cd", 2) == 0 && cmd[2] == -7)
 		return (0);
 	if (ft_strncmp(cmd, "env", 3) == 0)
 		return (0);
-	if (ft_strncmp(cmd, "exit", 4) == 0)
+	if (ft_strncmp(cmd, "exit", 4) == 0 && cmd[4] == -7)
 		return (0);
-	if (ft_strncmp(cmd, "unset", 5) == 0)
+	if (ft_strncmp(cmd, "unset", 5) == 0 && cmd[5] == -7)
 		return (0);
-	if (ft_strncmp(cmd, "export", 6) == 0)
+	if (ft_strncmp(cmd, "export", 6) == 0 && cmd[6] == -7)
 		return (0);
-	if (ft_strncmp(cmd, "pwd", 3) == 0)
+	if (ft_strncmp(cmd, "pwd", 3) == 0 && cmd[3] == -7)
 		return (0);
 	return (1);
 }
 
-void	exec_with_builtin(t_cmds *data_exec)
+int	exec_with_builtin(t_cmds *data_exec)
 {
 	char **cmd_args;
+
 
 	cmd_args = ft_split(data_exec->cmd, -7);
 	if (ft_strncmp(data_exec->cmd, "echo", 4) == 0)
@@ -52,6 +53,7 @@ void	exec_with_builtin(t_cmds *data_exec)
 		pwd_builitn(/*data_exec->lst_env, */data_exec->outfile);
 	if (cmd_args)
 		free_tab(cmd_args);
+	exit(SUCCESS);
 }
 
 void	ft_close_useless_pipe(t_cmds *data, int **pipe, int  i)

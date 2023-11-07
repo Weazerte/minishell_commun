@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 14:48:10 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/07 12:17:24 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 17:10:19 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,14 @@ int	cd_builtin(char **args, t_env *lst_env)
 	int	cd_ret;
 
 	printf("%s\n", args[1]);
+	cd_ret = 0;
 	if (!args[1])
-		return (go2path(0, lst_env));
+		exit(go2path(0, lst_env));
 	if (ft_strcmp(args[1], "-") == 0)
+	{
+		printf("jsuis la\n");
 		cd_ret = go2path(1, lst_env);
-	// else if (strncmp(args[1], "..", 2) == 0)
-	// {
-	// 	update_oldpwd(lst_env);
-		
-	// }
+	}
 	else
 	{
 		update_oldpwd(lst_env);
@@ -119,5 +118,5 @@ int	cd_builtin(char **args, t_env *lst_env)
 		if (cd_ret != 0)
 			p_error(args);
 	}
-	exit(0);
+	exit(cd_ret);
 }

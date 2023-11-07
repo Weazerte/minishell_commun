@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:31:47 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/07 12:49:32 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 18:35:56 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,17 @@ void	unset_builtin_comp(char **a, t_env *lst_env, t_env *env, t_env *tmp)
 	}
 }
 
+// static void	ft_put_lst(t_env *env)
+// {
+// 	while (env && env->next)
+// 	{
+// 		ft_putinfd_n(env->env_line, 1);
+// 		env = env->next;
+// 	}
+// 	if (env->env_line)
+// 		ft_putinfd_n(env->env_line, 1);
+// }
+
 // lst_env = (env->next) ? env->next : lst_env;
 int	unset_builtin(char **a, t_env *lst_env)
 {
@@ -69,5 +80,6 @@ int	unset_builtin(char **a, t_env *lst_env)
 	}
 	tmp = NULL;
 	unset_builtin_comp(a, lst_env, env, tmp);
+	// ft_put_lst(lst_env);
 	exit(SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_signal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:54:40 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/06 19:28:32 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/07 17:40:47 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_sigint(int sig)
 
 void	ft_exit(void)
 {
-	write(1, "\nExit\n", 6);
+	write(1, "exit\n", 6);
 	exit(0);
 }
 void init_signal(void)

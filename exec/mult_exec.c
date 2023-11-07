@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:05:08 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/07 16:26:01 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 16:48:15 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	ft_multexec_args(t_cmds *data_exec, int infile, int outfile)
 	char	*path;
 	int		status;
 
+	status = 0;
 	args = ft_split(data_exec->cmd, -7);
 	path = ft_path_bin(args[0], data_exec->lst_env);
-	printf("%s\n", path);
 	if (!path || !args)
 	{
 		if (args)
@@ -43,20 +43,10 @@ void	ft_multexec_args(t_cmds *data_exec, int infile, int outfile)
 		perror("error process");
 		exit(ERROR);
 	}
-	if (outfile != 1)
-	{
-		dup2(outfile, STDOUT);
-		close(outfile);
-	}
-	if (infile != 0)
-	{
-		dup2(infile, STDIN);
-		close(infile);
-	}
-	// dup_and_close(infile, outfile);
+	dup_and_close(infile, outfile);
 	status = execve(path, args, data_exec->env);
 	ft_free_cmd(path, args);
-	// exit(status);
+	exit(status);
 }
 
 void	ft_multexec_noargs(t_cmds *data_exec, int infile, int outfile)
@@ -65,6 +55,7 @@ void	ft_multexec_noargs(t_cmds *data_exec, int infile, int outfile)
 	char	*arr[2];
 	int		status;
 
+	status = 0;
 	path = ft_path_bin(data_exec->cmd, data_exec->lst_env);
 	if (!path)
 	{
@@ -114,7 +105,10 @@ int	make_multexec(t_cmds *data_exec)
 	ft_close_pipes(data_exec, pipe);
 	i = -1;
 	while (++i < data_exec->ncmd)
+	{
 		waitpid(pid[i], &status, 0);
+		printf("%d\n", status);
+	}
 	ft_free_mult_ex(data_exec);
 	return (status);
 }
