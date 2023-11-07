@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:03:20 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/07 15:42:39 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 16:41:37 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ int		one_exec(t_cmds *data_exec)
 void	exec(t_cmds **data_exec)
 {
 	if ((*data_exec)->ncmd == 1)
-		exit_status = one_exec(*data_exec);
+		exstatus = one_exec(*data_exec);
     else
-	{
-		exit_status = make_multexec(*data_exec);
-	}
+		exstatus = make_multexec(*data_exec);
 }

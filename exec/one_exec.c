@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:25:22 by mderkaou          #+#    #+#             */
-/*   Updated: 2023/11/07 15:04:41 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 16:35:17 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	exec_with_args(t_cmds *data_exec, int infile, int outfile)
 {
 	char	**args;
 	char	*path;
+	int		status;
 
 	args = ft_split(data_exec->cmd, -7);
 	path = ft_path_bin(args[0], data_exec->lst_env);
@@ -38,14 +39,15 @@ void	exec_with_args(t_cmds *data_exec, int infile, int outfile)
 		exit(ERROR);
 	}
 	dup_and_close(infile, outfile);
-	execve(path, args, data_exec->env);
-	exit(0);
+	status = execve(path, args, data_exec->env);
+	exit(status);
 }
 
 void	exec_without_args(t_cmds *data_exec, int infile, int outfile)
 {
 	char	*path;
 	char	*arr[2];
+	int	status;
 
 	path = ft_path_bin(data_exec->cmd, data_exec->lst_env);
 	if (!path)
@@ -57,7 +59,7 @@ void	exec_without_args(t_cmds *data_exec, int infile, int outfile)
 	arr[0] = path;
 	arr[1] = NULL;
 	dup_and_close(infile, outfile);		
-	execve(path, arr, data_exec->env);
+	status = execve(path, arr, data_exec->env);
 	free(path);
-	exit(-1);
+	exit(status);
 }

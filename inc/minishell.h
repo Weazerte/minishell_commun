@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/07 15:10:01 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 16:33:08 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-extern int	exit_status;
+extern int	exstatus;
 
 # define MAGENTA "\033[95m"
 # define RESET "\033[0m"
