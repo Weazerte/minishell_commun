@@ -6,13 +6,23 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:25:22 by mderkaou          #+#    #+#             */
-/*   Updated: 2023/11/06 22:03:49 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 15:04:41 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	exec_with_args(t_cmds *data_exec, int read_pipe, int write_pipe)
+int	ft_tab_len(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+void	exec_with_args(t_cmds *data_exec, int infile, int outfile)
 {
 	char	**args;
 	char	*path;
@@ -27,21 +37,12 @@ void	exec_with_args(t_cmds *data_exec, int read_pipe, int write_pipe)
 		perror(data_exec->cmd);
 		exit(ERROR);
 	}
-	if (write_pipe != 1)
-	{
-		dup2(write_pipe, STDOUT);
-		close(write_pipe);
-	}
-	if (read_pipe != 0)
-	{
-		dup2(read_pipe, STDIN);
-		close(read_pipe);
-	}
+	dup_and_close(infile, outfile);
 	execve(path, args, data_exec->env);
-	exit(-1);
+	exit(0);
 }
 
-void	exec_without_args(t_cmds *data_exec, int read_pipe, int write_pipe)
+void	exec_without_args(t_cmds *data_exec, int infile, int outfile)
 {
 	char	*path;
 	char	*arr[2];
@@ -55,16 +56,7 @@ void	exec_without_args(t_cmds *data_exec, int read_pipe, int write_pipe)
 	}
 	arr[0] = path;
 	arr[1] = NULL;
-	if (write_pipe != 1)
-	{
-		dup2(write_pipe, STDOUT);
-		close(write_pipe);
-	}
-	if (read_pipe != 0)
-	{
-		dup2(read_pipe, STDIN);
-		close(read_pipe);
-	}
+	dup_and_close(infile, outfile);		
 	execve(path, arr, data_exec->env);
 	free(path);
 	exit(-1);

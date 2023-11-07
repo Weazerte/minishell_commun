@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 13:28:33 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/04 20:56:15 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 13:46:21 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	pwd_builitn(int fd)
 	if (getcwd(cwd, 300))
 	{
 		ft_putendl_fd(cwd, fd);
-		return (SUCCESS);
+		exit(SUCCESS);
 	}
 	else
-		return (ERROR);
+		exit(ERROR);
 }

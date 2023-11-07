@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/06 22:03:08 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 15:10:01 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+extern int	exit_status;
 
 # define MAGENTA "\033[95m"
 # define RESET "\033[0m"
@@ -68,7 +70,6 @@ typedef struct s_cmds
 	char			**env;
 	int				exit;
 	int				ncmd;
-	t_env           *secret_lst_env;
 	t_env			*lst_env;
 }					t_cmds;
 
@@ -98,12 +99,13 @@ void				print_ordered_secret_env(t_env *env);
 
 int					unset_builtin(char **a, t_env *lst_env);
 
-int					exit_builtin(t_cmds *data_exec, char **cmd);
+int					exit_builtin(char **cmd);
 
 int					cd_builtin(char **args, t_env *lst_env);
 
-int					export_builtin(char **args, t_env *lst_env,
-						t_env *lst_secret);
+int					export_builtin(char **args, t_env *lst_env);
+
+void				dup_and_close(int infile, int outfile);
 
 int					pwd_builitn(int fd);
 
@@ -113,11 +115,11 @@ void				multexec_with_builtin(t_cmds *data_exec, int i, int **pipe);
 
 int					is_a_builtin(char *cmd);
 
-void				ft_multexec_args(t_cmds *data_exec, int read_pipe,
-						int write_pipe);
+void				ft_multexec_args(t_cmds *data_exec, int infile,
+						int outfile);
 
-void				ft_multexec_noargs(t_cmds *data_exec, int read_pipe,
-						int write_pipe);
+void				ft_multexec_noargs(t_cmds *data_exec, int infile,
+						int outile);
 
 void				ft_first_pipe(t_cmds *data_exec, int **pipe);
 
@@ -125,13 +127,13 @@ void				ft_inter_pipe(t_cmds *data_exec, int **pipe, int i);
 
 void				ft_last_pipe(t_cmds *data_exec, int **pipe, int i);
 
-void				exec_without_args(t_cmds *data_exec, int read_pipe,
-						int write_pipe);
+void				exec_without_args(t_cmds *data_exec, int infile,
+						int outfile);
 
-void				exec_with_args(t_cmds *data_exec, int read_pipe,
-						int write_pipe);
+void				exec_with_args(t_cmds *data_exec, int infile,
+						int outfile);
 
-int					make_all_exec(t_cmds *data_exec);
+int					make_multexec(t_cmds *data_exec);
 
 char				**ft_split_dos(char *s, char c, char *exe);
 
@@ -175,7 +177,7 @@ int					is_valid_env(const char *env);
 
 void				ft_free_lst(t_env *lst);
 
-void				ft_pipe_action(t_cmds *data_exec, int **pipe, int i);
+void				pipe_redirect(t_cmds *data_exec, int **pipe, int i);
 
 int					init_pipe(t_cmds *data_exec, int ***pipe);
 

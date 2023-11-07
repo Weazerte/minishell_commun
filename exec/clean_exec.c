@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:29:36 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/04 18:49:29 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 14:56:16 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,6 @@ void	ft_free_error(t_cmds *data, int **pipe)
 			ft_memdel(data[i].cmd);
 		if (data[i].env)
 			free_tab(data[i].env);
-		if (data[i].infile != 0)
-			close(data[i].infile);
-		if (data[i].outfile != 0)
-			close(data[i].outfile);
-		if (data[i].lst_env)
-			ft_free_lst(data[i].lst_env);
-		if (data)
-			ft_memdel(data);
 	}
 }
 
@@ -84,7 +76,7 @@ int	ft_verif_space(char *str)
 
 	while (str[i])
 	{
-		if (str[i] == ' ')
+		if (str[i] == -7)
 			return (1);
 		i++;
 	}

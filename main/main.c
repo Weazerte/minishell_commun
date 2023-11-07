@@ -6,11 +6,13 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:18:18 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/06 22:13:22 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 16:29:27 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int exit_status;
 
 t_cmds *do_parsing(char *start_line)
 {
@@ -52,13 +54,14 @@ int	main(int ac, char **av, char **env)
 	init_signal();
     env_init(&backup_env, env);
     exit = 0;
+    exit_status = 0;
 	while (exit == 0)
 	{
 		start_line = readline("Minishell> ");
 		if (!start_line)
 			ft_exit();
 		data_exec = do_parsing(start_line);
-        data_exec->lst_env= backup_env;
+        data_exec->lst_env = backup_env;
         data_exec->env = env_to_tab(data_exec->lst_env);
 		// for (int i = 0; data_exec[i].cmds != NULL; i++) {
         // printf("STRUCT[%d] = [%s]\n", i, data_exec[i]);

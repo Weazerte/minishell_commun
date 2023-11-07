@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:16:30 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/04 20:20:47 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 16:22:57 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	ft_inter_pipe(t_cmds *data_exec, int **pip, int i)
 {
 	int	j;
 
-	//close les pipes pas utilises
 	if (data_exec->infile != -1 && data_exec->infile != 1)
 		close(data_exec->infile);
 	if (data_exec->outfile != -1 && data_exec->outfile != 0)
@@ -93,7 +92,7 @@ void	ft_last_pipe(t_cmds *data_exec, int **pip, int i)
 		ft_multexec_noargs(data_exec, pip[i - 1][0], data_exec->outfile);
 }
 
-void	ft_pipe_action(t_cmds *data_exec, int **pipe, int i)
+void	pipe_redirect(t_cmds *data_exec, int **pipe, int i)
 {
 	if (i == 0)
 		ft_first_pipe(data_exec, pipe);

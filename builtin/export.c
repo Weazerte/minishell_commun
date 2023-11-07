@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 16:38:47 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/04 20:56:06 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/07 15:01:39 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,31 +86,25 @@ int	is_already_in_env(t_env *env, char *args)
 	return (SUCCESS);
 }
 
-int	export_builtin(char **args, t_env *lst_env, t_env *lst_secret)
+int	export_builtin(char **args, t_env *lst_env)
 {
 	int	new_env;
 	int	error_ret;
 
 	new_env = 0;
-	if (!args[1])
-		return (print_ordered_secret_env(lst_secret), SUCCESS);
+	error_ret = is_valid_env(args[1]);
+	if (args[1][0] == '=')
+		error_ret = -3;
+	if (error_ret <= 0)
+		return (print_error(error_ret, args[1]), exit(ERROR), ERROR);
+	if (error_ret == 2)
+		new_env = 1;
 	else
+		is_already_in_env(lst_env, args[1]);
+	if (new_env == 0)
 	{
-		error_ret = is_valid_env(args[1]);
-		if (args[1][0] == '=')
-			error_ret = -3;
-		if (error_ret <= 0)
-			return (print_error(error_ret, args[1]));
-		if (error_ret == 2)
-			new_env = 1;
-		else
-			is_already_in_env(lst_env, args[1]);
-		if (new_env == 0)
-		{
-			if (error_ret == 1)
-				env_add(args[1], lst_env);
-			env_add(args[1], lst_secret);
-		}
+		if (error_ret == 1)
+			env_add(args[1], lst_env);
 	}
-	return (SUCCESS);
+	exit(SUCCESS);
 }
