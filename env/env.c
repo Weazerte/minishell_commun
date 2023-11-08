@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:25:32 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/04 20:59:51 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/08 20:11:25 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ int	env_init(t_env **lst_env, char **env)
 	*lst_env = malloc(sizeof(t_env));
 	if (!(*lst_env))
 		return (1);
-	start = (*lst_env);
 	(*lst_env)->env_line = ft_strdup(env[0]);
 	(*lst_env)->next = NULL;
+	start = (*lst_env);
 	i = 1;
 	while (env && env[i])
 	{

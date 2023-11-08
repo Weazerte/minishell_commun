@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:05:08 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/07 16:48:15 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/08 22:04:54 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	dup_and_close(int infile, int outfile)
 	}
 }
 
-void	ft_multexec_args(t_cmds *data_exec, int infile, int outfile)
+void	ft_multexec_args(t_cmds *data_exec, int infile, int outfile, t_env *lst_env)
 {
 	char	**args;
 	char	*path;
@@ -34,7 +34,7 @@ void	ft_multexec_args(t_cmds *data_exec, int infile, int outfile)
 
 	status = 0;
 	args = ft_split(data_exec->cmd, -7);
-	path = ft_path_bin(args[0], data_exec->lst_env);
+	path = ft_path_bin(args[0], lst_env);
 	if (!path || !args)
 	{
 		if (args)
@@ -49,14 +49,14 @@ void	ft_multexec_args(t_cmds *data_exec, int infile, int outfile)
 	exit(status);
 }
 
-void	ft_multexec_noargs(t_cmds *data_exec, int infile, int outfile)
+void	ft_multexec_noargs(t_cmds *data_exec, int infile, int outfile, t_env *lst_env)
 {
 	char	*path;
 	char	*arr[2];
 	int		status;
 
 	status = 0;
-	path = ft_path_bin(data_exec->cmd, data_exec->lst_env);
+	path = ft_path_bin(data_exec->cmd, lst_env);
 	if (!path)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -71,10 +71,8 @@ void	ft_multexec_noargs(t_cmds *data_exec, int infile, int outfile)
 	exit(status);
 }
 
-
-int	make_multexec(t_cmds *data_exec)
+int	make_multexec(t_cmds *data_exec, t_env *lst_env)
 {
-	
 	int		i;
 	pid_t		pid[1024];
 	int	**pipe;
@@ -85,7 +83,8 @@ int	make_multexec(t_cmds *data_exec)
 	i = 0;
 	while (i < data_exec->ncmd)
 	{
-		// printf("%s\n", data_exec[i].cmd);
+		// if ( multexec_fork(data_exec, pid, pipe, i) == 1)
+		// 	return (ERROR);
 		pid[i] = fork();
 		if (pid[i] == -1)
 		{
@@ -94,21 +93,17 @@ int	make_multexec(t_cmds *data_exec)
 		}
 		if (pid[i] == 0)
 		{
-			// fprintf(stderr, "%d jsuis la\n", i);
-			if (is_a_builtin(data_exec[i].cmd) == 0)
-				multexec_with_builtin(&data_exec[i], i, pipe);
+			if (is_a_forked_builtin(data_exec[i].cmd) == 0)
+				multexec_with_builtin(&data_exec[i], i, pipe, lst_env);
 			else
-				pipe_redirect(&data_exec[i], pipe, i);
+				pipe_redirect(&data_exec[i], pipe, i, lst_env);
 		}
 		i++;
 	}
 	ft_close_pipes(data_exec, pipe);
 	i = -1;
 	while (++i < data_exec->ncmd)
-	{
 		waitpid(pid[i], &status, 0);
-		printf("%d\n", status);
-	}
 	ft_free_mult_ex(data_exec);
 	return (status);
 }

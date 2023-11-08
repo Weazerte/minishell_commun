@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 16:14:38 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/07 18:08:32 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/08 19:47:59 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,4 @@ void	echo_builtin(int fd, char **args)
 	}
 	if (option == 0)
 		write(fd, "\n", 1);
-	exit(0);
 }

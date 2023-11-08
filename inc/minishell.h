@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/07 19:08:34 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/08 23:47:27 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,16 @@ typedef struct s_cmds
 	char			**env;
 	int				exit;
 	int				ncmd;
-	t_env			*lst_env;
+	// t_env			*lst_env;
 }					t_cmds;
 
 int					ft_tab_len(char **env);
 
+int					exec_with_not_forked_builtin(t_cmds *data_exec, t_env *lst_env);
+
 void				ft_put_unknow_cmd(char *cmd);
 
-void				exec(t_cmds **data_exec);
+void				exec(t_cmds *data_exec, t_env *lst_env);
 
 int					ft_env_lstsize(t_env *lst);
 
@@ -101,7 +103,9 @@ void				print_ordered_secret_env(t_env *env);
 
 int					unset_builtin(char **a, t_env *lst_env);
 
-int					exit_builtin(char **cmd);
+int					is_a_not_forked_builtin(char *cmd);
+
+int					is_a_forked_builtin(char *cmd);
 
 int					cd_builtin(char **args, t_env *lst_env);
 
@@ -111,31 +115,29 @@ void				dup_and_close(int infile, int outfile);
 
 int					pwd_builitn(int fd);
 
-int				exec_with_builtin(t_cmds *data_exec);
+int					exec_with_forked_builtin(t_cmds *data_exec, t_env *lst_env);
 
-void				multexec_with_builtin(t_cmds *data_exec, int i, int **pipe);
-
-int					is_a_builtin(char *cmd);
+void				multexec_with_builtin(t_cmds *data_exec, int i, int **pipe, t_env *lst_env);
 
 void				ft_multexec_args(t_cmds *data_exec, int infile,
-						int outfile);
+						int outfile, t_env *lst_env);
 
 void				ft_multexec_noargs(t_cmds *data_exec, int infile,
-						int outile);
+						int outile, t_env *lst_env);
 
-void				ft_first_pipe(t_cmds *data_exec, int **pipe);
+void				ft_first_pipe(t_cmds *data_exec, int **pipe, t_env *lst_env);
 
-void				ft_inter_pipe(t_cmds *data_exec, int **pipe, int i);
+void				ft_inter_pipe(t_cmds *data_exec, int **pipe, int i, t_env *lst_env);
 
-void				ft_last_pipe(t_cmds *data_exec, int **pipe, int i);
+void				ft_last_pipe(t_cmds *data_exec, int **pipe, int i, t_env *lst_env);
 
 void				exec_without_args(t_cmds *data_exec, int infile,
-						int outfile);
+						int outfile, t_env *lst_env);
 
 void				exec_with_args(t_cmds *data_exec, int infile,
-						int outfile);
+						int outfile, t_env *lst_env);
 
-int					make_multexec(t_cmds *data_exec);
+int					make_multexec(t_cmds *data_exec, t_env *lst_env);
 
 char				**ft_split_dos(char *s, char c, char *exe);
 
@@ -144,8 +146,6 @@ char				*ft_find_bin(char **tab);
 char				*ft_cut_path(char *path);
 
 char				*ft_path(t_env *lst_env);
-
-void				ft_free_list(char **father);
 
 void				ft_close_pipes(t_cmds *data_exec, int **pipe);
 
@@ -156,6 +156,8 @@ void				ft_free_cmd(char *str, char **tab);
 void				ft_free_mult_ex(t_cmds *data);
 
 void				ft_close_fd(int *fd);
+
+int					exit_builtin(char **cmd);
 
 int					ft_verif_space(char *str);
 
@@ -179,9 +181,11 @@ int					is_valid_env(const char *env);
 
 void				ft_free_lst(t_env *lst);
 
-void				pipe_redirect(t_cmds *data_exec, int **pipe, int i);
+void				pipe_redirect(t_cmds *data_exec, int **pipe, int i, t_env *lst_env);
 
 int					init_pipe(t_cmds *data_exec, int ***pipe);
+
+void				change_fucked_char(char *s);
 
 char				*check_quotes(char *str);
 int					syntax_parse(char *str);

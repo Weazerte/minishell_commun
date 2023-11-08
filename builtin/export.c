@@ -6,22 +6,11 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 16:38:47 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/07 18:36:03 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/08 23:44:14 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-// static void	ft_put_lst(t_env *env)
-// {
-// 	while (env && env->next)
-// 	{
-// 		ft_putinfd_n(env->env_line, 1);
-// 		env = env->next;
-// 	}
-// 	if (env->env_line)
-// 		ft_putinfd_n(env->env_line, 1);
-// }
 
 static int	print_error(int error, const char *arg)
 {
@@ -107,16 +96,14 @@ int	export_builtin(char **args, t_env *lst_env)
 	if (args[1][0] == '=')
 		error_ret = -3;
 	if (error_ret <= 0)
-		return (print_error(error_ret, args[1]), exit(ERROR), ERROR);
+		return (print_error(error_ret, args[1]), ERROR);
 	else
 		if (is_already_in_env(lst_env, args[1]) == 1)
 			new_env = 1;
 	if (new_env == 0)
 	{
-		printf("%d\n", error_ret);
 		if (error_ret == 1)
 			env_add(args[1], lst_env);
 	}
-	// ft_put_lst(lst_env);
-	exit(SUCCESS);
+	return(SUCCESS);
 }

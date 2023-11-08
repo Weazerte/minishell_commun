@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 18:08:07 by eaubry            #+#    #+#             */
-/*   Updated: 2022/11/21 11:53:46 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/08 20:15:05 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,18 @@ char	*ft_strdup(char *src)
 	int		i;
 
 	i = 0;
-	while (src[i] != '\0')
+	while (src[i])
 		i++;
-	str = malloc(i * sizeof(char) + 1);
-	if (str != NULL)
+	str = malloc(sizeof(char) * (i + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (src[i])
 	{
-		i = 0;
-		while (src[i] != '\0')
-		{
-			str[i] = src[i];
-			i++;
-		}
-		str[i] = '\0';
+		str[i] = src[i];
+		i++;
 	}
+	str[i] = '\0';
 	return (str);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 18:28:19 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/07 19:35:48 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/08 20:47:55 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,14 @@ char	*split_env(char *str, int dollar_pos, t_env *backup_env)
 
 	before = ft_strndup(str, dollar_pos);
 	to_expand = find_var_name(str, dollar_pos + 1);
-	printf("VAR_NAME = [%s]", to_expand);
+	// printf("VAR_NAME = [%s]", to_expand);
 	after = ft_strndup(&str[dollar_pos + 1 + ft_strlen(to_expand)],
 			ft_strlen(str));
 	if (str[dollar_pos + 1] == '?')
 		expanded = build_expanded_line(before, to_expand, after);
 	else
 		expanded = build_expanded_line(before, ft_get_env(backup_env, to_expand), after);
-	printf("AFTER EXPAND = [%s]\n", expanded);
+	// printf("AFTER EXPAND = [%s]\n", expanded);
 	free(before);
 	free(to_expand);
 	free(after);

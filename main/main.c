@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:18:18 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/07 19:07:54 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/08 23:49:38 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_cmds *do_parsing(char *start_line, t_env *backup_env)
     int ncmd;
 	int	i;
 
-	i = 0;
     line = ft_parsing(start_line, backup_env);
     if (!line)
         return (NULL);
@@ -33,8 +32,12 @@ t_cmds *do_parsing(char *start_line, t_env *backup_env)
         free(line);
         return (NULL);
     }
-    while (data_exec[i].cmd)
+    i = 0;
+    
+    while (i < ncmd)
 	{
+        data_exec[i].infile = 0;
+        data_exec[i].outfile = 1;
         data_exec[i].ncmd = ncmd;
         data_exec[i].exit = 0;
 		data_exec[i].cmd = ft_positive(data_exec[i].cmd);
@@ -42,6 +45,19 @@ t_cmds *do_parsing(char *start_line, t_env *backup_env)
 	}
     free (line);
     return (data_exec);
+}
+
+int dothis(t_cmds *data_exec, t_env *lst_env)
+{
+    int exit;
+
+    exit = 0;
+    data_exec->env = env_to_tab(lst_env);
+    exec(data_exec, lst_env);
+    exit = data_exec->exit;
+    if (data_exec)
+        free(data_exec);
+    return (exit);
 }
 
 int	main(int ac, char **av, char **env)
@@ -61,21 +77,12 @@ int	main(int ac, char **av, char **env)
 		start_line = readline("Minishell> ");
 		if (!start_line)
 			ft_exit();
-		data_exec = do_parsing(start_line, backup_env);
-        data_exec->lst_env = backup_env;
-        data_exec->env = env_to_tab(data_exec->lst_env);
-		// for (int i = 0; data_exec[i].cmds != NULL; i++) {
-        // printf("STRUCT[%d] = [%s]\n", i, data_exec[i]);
-        // }
-        exec(&data_exec);
-        if (data_exec->ncmd != 1)
-            backup_env = data_exec[(data_exec->ncmd - 1)].lst_env;
-        else
-            backup_env = data_exec->lst_env;
-        exit = data_exec->exit;
-        if (data_exec)
-            free(data_exec);
+        data_exec = do_parsing(start_line, backup_env);
+        dothis(data_exec, backup_env);
 	}
     ft_free_lst(backup_env);
 	return (0);
 }
+ // REMPLACER LES CMD DANS LES PERROR PAR LA FONCTION REMPLACER LES -7
+ // ERREUR PARS AVEC QUOTE PAS FERMER
+ //RAJOUTER LES REDIRECTION DE INFILE OUTFILE
