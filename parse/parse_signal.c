@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_signal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:54:40 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 21:27:51 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 22:35:04 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ void	handle_sigint(int sig)
 	write(1, "\nMinishell> ", 12);
 }
 
-void	ft_exit(void)
+void	ft_exit(char *line, t_env *backup)
 {
 	write(1, "exit\n", 6);
+	free(line);
+	ft_free_lst(backup);
 	exit(0);
 }
 void	init_signal(void)

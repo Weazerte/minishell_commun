@@ -6,7 +6,7 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:39 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 22:02:54 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/09 22:12:37 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*has_heredoc(char *line)
 	return (NULL);
 }
 
-void	ft_exec_heredoc(char *limiter, char *file, t_env *backup_env)
+void	ft_exec_heredoc(char *limiter, char *file, t_env *backup_env, char *line)
 {
 	int	pid;
 	int	status;
@@ -55,7 +55,7 @@ void	ft_exec_heredoc(char *limiter, char *file, t_env *backup_env)
 
 	pid = fork();
 	if (pid == 0)
-		inside_heredoc(limiter, file, backup_env);
+		inside_heredoc(limiter, file, backup_env, line);
 	else
 	{
 		waitpid(pid, &status, 0);

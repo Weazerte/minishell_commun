@@ -6,7 +6,7 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:32 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 22:06:54 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/09 22:16:31 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*find_multi_heredoc(char *line, t_env *backup_env)
 	tmp = NULL;
 	while (count--)
 	{
-		tmp = do_heredoc(save, 0, backup_env);
+		tmp = do_heredoc(save, 0, backup_env, line);
 		//if (save != line)
 		free(save);
 		save = tmp;
@@ -60,7 +60,7 @@ char	*path_file(void)
 	return (file_path);
 }
 
-void	inside_heredoc(char *limiter, char *file, t_env *backup_env)
+void	inside_heredoc(char *limiter, char *file, t_env *backup_env, char *str)
 {
 	char	*line;
 	int		fd;
@@ -82,12 +82,13 @@ void	inside_heredoc(char *limiter, char *file, t_env *backup_env)
 		free(line);
 	}
 	free_strs(line, file, limiter);
+	free(str);
 	ft_free_lst(backup_env);
 	close(fd);
 	exit(0);
 }
 
-char	*do_heredoc(char *line, int i, t_env *backup_env)
+char	*do_heredoc(char *line, int i, t_env *backup_env, char *str)
 {
 	char	*pos;
 	char	*delimit;
@@ -105,7 +106,7 @@ char	*do_heredoc(char *line, int i, t_env *backup_env)
 	delimit = find_delimit(pos);
 	if (!delimit)
 		return (line);
-	ft_exec_heredoc(delimit, file, backup_env);
+	ft_exec_heredoc(delimit, file, backup_env, str);
 	new = delimit_to_path(line, delimit, file);
 	free_strs(file, delimit, NULL);
 	while (new[++i])

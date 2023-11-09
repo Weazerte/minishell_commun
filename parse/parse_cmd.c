@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:14 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 21:28:18 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 22:51:32 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ t_cmds	*line_to_structs(char *line)
 	struct_cmds = init_struct_cmds(nbcmd);
 	if (!struct_cmds)
 		return (NULL);
-	if (!process_splits(line, struct_cmds, &start, &i))
+	process_splits(line, struct_cmds, &start, &i);
+	if (!struct_cmds)
 		return (NULL);
 	return (struct_cmds);
 }

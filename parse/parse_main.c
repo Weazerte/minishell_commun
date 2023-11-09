@@ -6,7 +6,7 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:23 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 21:58:48 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/09 22:23:38 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_parsing(char *start_line, t_env *backup_env)
 
 	line = ft_strdup(start_line);
 	if (!line)
-		return (ft_exit(), NULL);
+		return (ft_exit(line, backup_env), NULL);
 	if (*line)
 		add_history(line);
 	line = check_quotes(line);

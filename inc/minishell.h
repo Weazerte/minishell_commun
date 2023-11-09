@@ -6,7 +6,7 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/09 22:06:02 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/09 22:23:15 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,10 +232,10 @@ char				*path_file(void);
 char				*has_heredoc(char *line);
 char				*find_multi_heredoc(char *line, t_env *backup_env);
 char				*find_heredoc(char *line);
-char				*do_heredoc(char *line, int i, t_env *backup_env);
+char				*do_heredoc(char *line, int i, t_env *backup_env, char *str);
 char				*find_delimit(char *line);
-void				ft_exec_heredoc(char *limiter, char *file, t_env *backup_env);
-void				inside_heredoc(char *limiter, char *file, t_env *backup_env);
+void				ft_exec_heredoc(char *limiter, char *file, t_env *backup_env, char *str);
+void				inside_heredoc(char *limiter, char *file, t_env *backup_env, char *line);
 char				*ft_parsing(char *start_line, t_env *backup_env);
 int					ft_strcmp(char *s1, char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -251,7 +251,7 @@ char				*clean_spaces_quotes(char *dest, const char *src, int *j,
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strndup(const char *s, size_t n);
 unsigned int		ft_strlcat(char *dest, char *src, unsigned int size);
-void				ft_exit(void);
+void				ft_exit(char *line, t_env *backup);
 void				handle_sigint(int sig);
 void				init_signal(void);
 t_cmds				*do_parsing(char *start_line, t_env *backup_env);

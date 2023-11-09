@@ -6,7 +6,7 @@
 /*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:18:18 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/09 21:44:32 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/09 22:47:48 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ t_cmds *do_parsing(char *start_line, t_env *backup_env)
         data_exec[i].ncmd = ncmd;
         data_exec[i].exit = 0;
 		data_exec[i].cmd = ft_positive(data_exec[i].cmd);
-       /* if (ft_strchr_2(data_exec[i].cmd, ">") == 0 || ft_strchr_2(data_exec[i].cmd, ">>") == 0)
+        if (ft_strchr_2(data_exec[i].cmd, ">") == 0 || ft_strchr_2(data_exec[i].cmd, ">>") == 0)
             ft_open_outfile(data_exec);
         if (ft_strchr_2(data_exec[i].cmd, "<") == 0)
-            ft_open_infile(data_exec);*/
+            ft_open_infile(data_exec);
         i++;
 	}
 
@@ -99,10 +99,10 @@ int	main(int ac, char **av, char **env)
 	{
 		start_line = readline("Minishell> ");
 		if (!start_line)
-			ft_exit();
+			ft_exit(NULL, backup_env);
         data_exec = do_parsing(start_line, backup_env);
-       // if (data_exec)
-         //   exit = dothis(data_exec, backup_env);
+        if (data_exec)
+          exit = dothis(data_exec, backup_env);
 	}
     ft_free_lst(backup_env);
 	return (g_exstatus);
