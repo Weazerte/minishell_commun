@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:10:38 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/09 16:32:50 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 18:02:02 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static void	ft_cpycmd(const char *src, char *dst, int len)
 	}
 	dst[i] = 0;
 }
-
 void	ft_free_for_open(char *s1, char *s2, char **tab)
 {
 	if (s1)

@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:17 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 17:13:24 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 18:32:15 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char *clean_spaces_quotes(char *dest, const char *src, int *j, int i)
         current_char = src[++i];
     }
     dest[*j] = '\0';
-    printf("DEST = [%s]", dest);
+    // printf("DEST = [%s]", dest);
     return dest;
 }
 
@@ -91,7 +91,7 @@ char	*rmv_spaces_quotes(char *line)
 	int		j;
 
 	j = 0;
-	new_line = (char *)malloc(strlen(line) + 1);
+	new_line = (char *)malloc(ft_strlen(line) * 3); // TODO pull pour le fix
 	if (!new_line)
 		return (NULL);
 	skip_spaces((const char **)&line);

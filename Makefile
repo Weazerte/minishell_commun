@@ -6,7 +6,7 @@
 #    By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:11:22 by user              #+#    #+#              #
-#    Updated: 2023/11/09 15:37:45 by eaubry           ###   ########.fr        #
+#    Updated: 2023/11/09 18:20:56 by eaubry           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ NAME    =	minishell
 
 OBJS    =	${SRCS:.c=.o}
 
-CFLAGS	=	-Wall -Wextra -Werror -g
+CFLAGS	=	-Wall -Wextra -Werror -ggdb
 
 CC	=	cc
 
