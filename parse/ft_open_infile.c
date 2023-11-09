@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:10:26 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/09 21:28:28 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 22:56:52 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	ft_open_infile(t_cmds *data)
 	file = malloc(sizeof(char) * (len + 1));
 	ft_strnccpy(tab[where], file, len);
 	data->infile = open(file, O_RDONLY);
-	printf("file : %s       infile %d\n", file, data->infile);
 	ft_memdel(data->cmd);
 	len = ft_len(tab, 2);
 	if (where == 1)

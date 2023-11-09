@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:17 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 22:50:49 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/09 22:57:48 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ char	*clean_spaces_quotes(char *dest, const char *src, int *j, int i)
 		current_char = src[++i];
 	}
 	dest[*j] = '\0';
-	// printf("DEST = [%s]", dest);
 	return (dest);
 }
 
