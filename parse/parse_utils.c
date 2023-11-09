@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:17 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 21:27:45 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:32:02 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 char	*dollar_qm(void)
 {
 	char	*var;
-
-	var = malloc(2);
-	if (!var)
-		return (NULL);
-	var[0] = '0' + g_exstatus;
-	var[1] = '\0';
+	char	*val;
+	
+	val = ft_itoa(g_exstatus);
+	var = ft_strdup(val);
+	free(val);
 	return (var);
 }
 
@@ -49,18 +48,12 @@ void	csq(char *dest, const char *src, int *j, int *i)
 
 	current_char = src[*i];
 	if (*j > 0 && !is_space(dest[*j - 1]))
-	{
 		dest[(*j)++] = -7;
-	}
 	dest[(*j)++] = current_char;
 	if (current_char == '>' && src[*i + 1] == '>')
-	{
 		dest[(*j)++] = src[++(*i)];
-	}
 	if (src[*i + 1] != '\0' && !is_space(src[*i + 1]))
-	{
 		dest[(*j)++] = -7;
-	}
 }
 
 char	*clean_spaces_quotes(char *dest, const char *src, int *j, int i)
