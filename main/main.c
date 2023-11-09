@@ -6,13 +6,32 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:18:18 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/08 23:49:38 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 16:38:27 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int exstatus;
+int g_exstatus;
+
+int ft_strchr_2(char *s, char *tofind)
+{
+    int i;
+    int j;
+    int len;
+    
+    i = -1;
+    len = (int)ft_strlen(tofind);
+    while (s[++i])
+    {
+        j = -1;
+        while (s[i] == tofind[++j])
+            i++;
+        if (j == len)
+            return (0);
+    }
+    return (1);
+}
 
 t_cmds *do_parsing(char *start_line, t_env *backup_env)
 {
@@ -41,8 +60,13 @@ t_cmds *do_parsing(char *start_line, t_env *backup_env)
         data_exec[i].ncmd = ncmd;
         data_exec[i].exit = 0;
 		data_exec[i].cmd = ft_positive(data_exec[i].cmd);
-		i++;
+        if (ft_strchr_2(data_exec[i].cmd, ">") == 0 || ft_strchr_2(data_exec[i].cmd, ">>") == 0)
+            ft_open_outfile(data_exec);
+        if (ft_strchr_2(data_exec[i].cmd, "<") == 0)
+            ft_open_infile(data_exec);
+        i++;
 	}
+
     free (line);
     return (data_exec);
 }
@@ -55,8 +79,7 @@ int dothis(t_cmds *data_exec, t_env *lst_env)
     data_exec->env = env_to_tab(lst_env);
     exec(data_exec, lst_env);
     exit = data_exec->exit;
-    if (data_exec)
-        free(data_exec);
+    free(data_exec);
     return (exit);
 }
 
@@ -78,11 +101,10 @@ int	main(int ac, char **av, char **env)
 		if (!start_line)
 			ft_exit();
         data_exec = do_parsing(start_line, backup_env);
-        dothis(data_exec, backup_env);
+        // printf("%s\n", data_exec->cmd);
+        exit = dothis(data_exec, backup_env);
 	}
     ft_free_lst(backup_env);
-	return (0);
+	return (g_exstatus);
 }
- // REMPLACER LES CMD DANS LES PERROR PAR LA FONCTION REMPLACER LES -7
  // ERREUR PARS AVEC QUOTE PAS FERMER
- //RAJOUTER LES REDIRECTION DE INFILE OUTFILE

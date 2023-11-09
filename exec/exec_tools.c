@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:24:33 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/08 19:43:17 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 13:08:56 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,11 @@ char	**ft_join_tab_cmd(char **tab, char *cmd)
 	while (tab[len])
 		len++;
 	tab2 = malloc(sizeof(char *) * (len + 1));
-	i = -1;
-	while(tab[++i])
-		tab[i] = ft_strjoin(tab[i], "/");
+	if (!tab2)
+		return (free_tab(tab), NULL);
 	i = -1;
 	while (tab[++i])
-		tab2[i] = ft_strjoin(tab[i], cmd);
-	// printf("%s ||| %d\n", tab2[i - 1],  i);
+		tab2[i] = ft_join_path(tab[i], cmd); // fonction dans builtin_tools
 	tab2[i] = NULL;
 	free_tab(tab);
 	return (tab2);

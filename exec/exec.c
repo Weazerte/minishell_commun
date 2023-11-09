@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:03:20 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/08 23:37:42 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 16:23:20 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ int		one_exec(t_cmds *data_exec, t_env *lst_env)
     	waitpid(pid, &status, 0);
 	}
 	is_exit(data_exec);
-	ft_free_one_ex(data_exec);
-	return (status);
+	g_exstatus = status;
+	return (ft_free_one_ex(data_exec), 0);
 }
 
 void	exec(t_cmds *data_exec, t_env *lst_env)
 {
 	if (data_exec->ncmd == 1)
-		exstatus = one_exec(data_exec, lst_env);
+		one_exec(data_exec, lst_env);
     else
-		exstatus = make_multexec(data_exec, lst_env);
+		make_multexec(data_exec, lst_env);
 }

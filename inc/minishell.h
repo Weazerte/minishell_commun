@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/08 23:47:27 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 16:23:06 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-extern int	exstatus;
+extern int	g_exstatus;
 
 # define MAGENTA "\033[95m"
 # define RESET "\033[0m"
@@ -137,7 +137,7 @@ void				exec_without_args(t_cmds *data_exec, int infile,
 void				exec_with_args(t_cmds *data_exec, int infile,
 						int outfile, t_env *lst_env);
 
-int					make_multexec(t_cmds *data_exec, t_env *lst_env);
+void				make_multexec(t_cmds *data_exec, t_env *lst_env);
 
 char				**ft_split_dos(char *s, char c, char *exe);
 
@@ -186,6 +186,14 @@ void				pipe_redirect(t_cmds *data_exec, int **pipe, int i, t_env *lst_env);
 int					init_pipe(t_cmds *data_exec, int ***pipe);
 
 void				change_fucked_char(char *s);
+
+char				*ft_join_path(char *src, char *cmd);
+
+void				ft_free_child(t_cmds *data, t_env *lst_env);
+
+void				ft_open_outfile(t_cmds *data);
+
+void				ft_open_infile(t_cmds *data);
 
 char				*check_quotes(char *str);
 int					syntax_parse(char *str);
