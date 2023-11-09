@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:18:18 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/09 16:38:27 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 17:08:00 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ int	main(int ac, char **av, char **env)
 			ft_exit();
         data_exec = do_parsing(start_line, backup_env);
         // printf("%s\n", data_exec->cmd);
-        exit = dothis(data_exec, backup_env);
+        if (data_exec)
+            exit = dothis(data_exec, backup_env);
 	}
     ft_free_lst(backup_env);
 	return (g_exstatus);

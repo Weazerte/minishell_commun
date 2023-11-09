@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:05:08 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/09 16:23:26 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 17:11:22 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	make_multexec_tools(t_cmds *data_exec, t_env *lst_env, int **pipe, pid_t pi
 		}
 		i++;
 	}
+	// exit(0);
 }
 
 void	make_multexec(t_cmds *data_exec, t_env *lst_env)
