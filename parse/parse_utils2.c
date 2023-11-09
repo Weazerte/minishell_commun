@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:08 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/06 19:03:27 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/09 21:27:41 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ char	*ft_strndup(const char *s, size_t n)
 
 unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
 {
-	unsigned int	i;
-	unsigned int	j;
-	unsigned int	k;
+	unsigned int i;
+	unsigned int j;
+	unsigned int k;
 
 	i = ft_strlen(dest);
 	j = ft_strlen(src);

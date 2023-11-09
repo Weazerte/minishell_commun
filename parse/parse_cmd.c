@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:14 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 18:16:47 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:28:18 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ t_cmds	*process_splits(char *line, t_cmds *struct_cmds, int *start, int *i)
 		(*i)++;
 		end = find_next_pipe(line + *start);
 	}
-	cleaned_split = create_and_clean_split(line, *start,
-			ft_strlen(line + *start));
+	cleaned_split = create_and_clean_split(line, *start, ft_strlen(line
+				+ *start));
 	if (!cleaned_split)
 		return (free_struct_error(struct_cmds, *i));
 	struct_cmds[*i].cmd = cleaned_split;

@@ -87,7 +87,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
 	size_t	i;
@@ -165,9 +164,9 @@ int	ft_strcmp(char *s1, char *s2)
 }
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t	i;
-	size_t	j;
-	char	*str;
+	size_t i;
+	size_t j;
+	char *str;
 
 	j = ft_strlen(s);
 	if (len > j - start)

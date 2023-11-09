@@ -6,13 +6,13 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:10:26 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/09 20:22:21 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:28:28 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static int	ft_len(char **tab, int	i)
+static int	ft_len(char **tab, int i)
 {
 	int	j;
 
@@ -33,8 +33,8 @@ static void	ft_strnccpy(const char *src, char *dst, int len)
 	i = 0;
 	while (src[i] && i < len)
 	{
-			dst[i] = src[i];
-			i++;
+		dst[i] = src[i];
+		i++;
 	}
 	dst[i] = 0;
 }
@@ -58,7 +58,7 @@ static void	ft_cpycmd(char **tab, char *dst, int i)
 		{
 			dst[k] = -7;
 			k++;
-		}	
+		}
 		i++;
 	}
 	dst[k] = 0;
@@ -70,33 +70,43 @@ static int	ft_where(char **tab)
 
 	i = -1;
 	while (tab[++i])
+	{
 		if (ft_strcmp(tab[i], "<") == 0)
-			return ((i + 1));
+		{
+			if (i == 0)
+				return (1);
+			else
+				return ((i + 1));
+		}
+	}
 	return (0);
 }
 
 void	ft_open_infile(t_cmds *data)
 {
-	char **tab;
-	int	len;
-	int	tab_len;
-	char *file;
-	int	where;
+	char	**tab;
+	int		len;
+	int		tab_len;
+	char	*file;
+	int		where;
 
 	tab = ft_split(data->cmd, -7);
 	where = ft_where(tab);
 	len = (int)ft_strlen(tab[where]);
 	tab_len = (ft_tab_len(tab) - 1);
-	file = malloc(sizeof(char) * (len + tab_len + 1));
+	file = malloc(sizeof(char) * (len + 1));
 	ft_strnccpy(tab[where], file, len);
 	data->infile = open(file, O_RDONLY);
-	if (data->cmd)
-		free(data->cmd);
+	printf("file : %s       infile %d\n", file, data->infile);
+	ft_memdel(data->cmd);
 	len = ft_len(tab, 2);
-	data->cmd = malloc(sizeof(char) * (len + 1));
-	ft_cpycmd(tab, data->cmd, 2);
-	if (file)
-		free(file);
-	if (tab)
-		free_tab(tab);
+	if (where == 1)
+	{
+		data->cmd = malloc(sizeof(char) * (len + 1));
+		ft_cpycmd(tab, data->cmd, 2);
+	}
+	else
+		data->cmd = ft_strdup(tab[0]);
+	ft_memdel(file);
+	free_tab(tab);
 }

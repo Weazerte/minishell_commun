@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:20:58 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 18:34:23 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:27:48 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ int	operator_parse(char *str, char op)
 int	syntax_error(char c)
 {
 	if (is_operator(c))
-		printf ("bash: syntax error near unexpected token '%c'\n", c);
+		printf("bash: syntax error near unexpected token '%c'\n", c);
 	else
-		printf ("bash: syntax error near unexpected token 'newline'\n");
+		printf("bash: syntax error near unexpected token 'newline'\n");
 	return (0);
 }
 

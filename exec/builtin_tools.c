@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 17:34:47 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/09 13:24:11 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:25:58 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ char	*ft_join_path(char *src, char *cmd)
 {
 	int		i;
 	int		len;
-	char 	*cpy;
+	char	*cpy;
 	int		option;
-	
+
 	len = 0;
 	option = ft_option(src, cmd, &len);
 	cpy = malloc(sizeof(char) * (len + 1));

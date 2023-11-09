@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:32 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 18:36:51 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:28:09 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,9 @@ char	*find_multi_heredoc(char *line)
 
 char	*path_file(void)
 {
-	char		*count;
-	char		*file_path;
-	static int	i;
+	char	*file_path;
 
-	count = ft_itoa(i++);
-	file_path = build_expanded_line("/tmp/file", count, "");
-	if (count)
-		free(count);
+	file_path = build_expanded_line("/tmp/file", "", "");
 	return (file_path);
 }
 
@@ -70,7 +65,7 @@ void	inside_heredoc(char *limiter, char *file)
 	char	*line;
 	int		fd;
 
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1)
 		return (free(file), perror("open"), exit(1));
 	while (1)
@@ -112,9 +107,9 @@ char	*do_heredoc(char *line, int i)
 	ft_exec_heredoc(delimit, file);
 	new = delimit_to_path(line, delimit, file);
 	free_strs(file, delimit, NULL);
-	while(new[++i])
+	while (new[++i])
 	{
-		if (new[i] == '<' && new[i -1] == '<')
+		if (new[i] == '<' && new[i - 1] == '<')
 			new[i] = -7;
 	}
 	return (new);

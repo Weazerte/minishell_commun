@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:47:24 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/09 13:26:17 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:25:55 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	exec_with_not_forked_builtin(t_cmds *data_exec, t_env *lst_env)
 {
-	char **cmd_args;
+	char	**cmd_args;
 
 	cmd_args = ft_split(data_exec->cmd, -7);
 	if (ft_strncmp(data_exec->cmd, "cd", 2) == 0)
@@ -32,7 +32,7 @@ int	exec_with_not_forked_builtin(t_cmds *data_exec, t_env *lst_env)
 
 int	exec_with_forked_builtin(t_cmds *data_exec, t_env *lst_env)
 {
-	char **cmd_args;
+	char	**cmd_args;
 
 	cmd_args = ft_split(data_exec->cmd, -7);
 	if (ft_strncmp(data_exec->cmd, "echo", 4) == 0)
@@ -40,16 +40,15 @@ int	exec_with_forked_builtin(t_cmds *data_exec, t_env *lst_env)
 	else if (ft_strncmp(data_exec->cmd, "env", 3) == 0)
 		env_builtin(lst_env, data_exec->outfile);
 	else if (ft_strncmp(data_exec->cmd, "pwd", 3) == 0)
-		pwd_builitn(/*data_exec->lst_env, */data_exec->outfile);
+		pwd_builitn(/*data_exec->lst_env, */ data_exec->outfile);
 	ft_free_child(data_exec, lst_env);
 	free_tab(cmd_args);
 	exit(SUCCESS);
 }
 
-void	ft_close_useless_pipe(t_cmds *data, int **pipe, int  i)
+void	ft_close_useless_pipe(t_cmds *data, int **pipe, int i)
 {
 	int	j;
-
 
 	j = 0;
 	close(pipe[i][0]);
@@ -57,16 +56,17 @@ void	ft_close_useless_pipe(t_cmds *data, int **pipe, int  i)
 	{
 		if (j != i)
 		{
-			close (pipe[j][0]);
-			close (pipe[j][1]);
+			close(pipe[j][0]);
+			close(pipe[j][1]);
 		}
 		j++;
 	}
 }
 
-void	multexec_with_builtin(t_cmds *data_exec, int i, int **pipe, t_env *lst_env)
+void	multexec_with_builtin(t_cmds *data_exec, int i, int **pipe,
+		t_env *lst_env)
 {
-	char **cmd_args;
+	char	**cmd_args;
 
 	cmd_args = ft_split(data_exec->cmd, -7);
 	if (i < (data_exec->ncmd - 1))

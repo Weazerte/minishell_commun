@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/09 16:59:13 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/09 21:26:47 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-extern int	g_exstatus;
+extern int			g_exstatus;
 
 # define MAGENTA "\033[95m"
 # define RESET "\033[0m"
@@ -64,18 +64,18 @@ typedef struct s_env
 
 typedef struct s_cmds
 {
-	char            *cmd;  
-	int             infile;
-	int             outfile;
+	char			*cmd;
+	int				infile;
+	int				outfile;
 	char			**env;
 	int				exit;
 	int				ncmd;
-	// t_env			*lst_env;
 }					t_cmds;
 
 int					ft_tab_len(char **env);
 
-int					exec_with_not_forked_builtin(t_cmds *data_exec, t_env *lst_env);
+int					exec_with_not_forked_builtin(t_cmds *data_exec,
+						t_env *lst_env);
 
 void				ft_put_unknow_cmd(char *cmd);
 
@@ -117,25 +117,29 @@ int					pwd_builitn(int fd);
 
 int					exec_with_forked_builtin(t_cmds *data_exec, t_env *lst_env);
 
-void				multexec_with_builtin(t_cmds *data_exec, int i, int **pipe, t_env *lst_env);
+void				multexec_with_builtin(t_cmds *data_exec, int i, int **pipe,
+						t_env *lst_env);
 
-void				ft_multexec_args(t_cmds *data_exec, int infile,
-						int outfile, t_env *lst_env);
+void				ft_multexec_args(t_cmds *data_exec, int infile, int outfile,
+						t_env *lst_env);
 
 void				ft_multexec_noargs(t_cmds *data_exec, int infile,
 						int outile, t_env *lst_env);
 
-void				ft_first_pipe(t_cmds *data_exec, int **pipe, t_env *lst_env);
+void				ft_first_pipe(t_cmds *data_exec, int **pipe,
+						t_env *lst_env);
 
-void				ft_inter_pipe(t_cmds *data_exec, int **pipe, int i, t_env *lst_env);
+void				ft_inter_pipe(t_cmds *data_exec, int **pipe, int i,
+						t_env *lst_env);
 
-void				ft_last_pipe(t_cmds *data_exec, int **pipe, int i, t_env *lst_env);
+void				ft_last_pipe(t_cmds *data_exec, int **pipe, int i,
+						t_env *lst_env);
 
 void				exec_without_args(t_cmds *data_exec, int infile,
 						int outfile, t_env *lst_env);
 
-void				exec_with_args(t_cmds *data_exec, int infile,
-						int outfile, t_env *lst_env);
+void				exec_with_args(t_cmds *data_exec, int infile, int outfile,
+						t_env *lst_env);
 
 void				make_multexec(t_cmds *data_exec, t_env *lst_env);
 
@@ -181,7 +185,8 @@ int					is_valid_env(const char *env);
 
 void				ft_free_lst(t_env *lst);
 
-void				pipe_redirect(t_cmds *data_exec, int **pipe, int i, t_env *lst_env);
+void				pipe_redirect(t_cmds *data_exec, int **pipe, int i,
+						t_env *lst_env);
 
 int					init_pipe(t_cmds *data_exec, int ***pipe);
 
@@ -244,13 +249,13 @@ void				skip_spaces(const char **line);
 char				*clean_spaces_quotes(char *dest, const char *src, int *j,
 						int i);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
-char                *ft_strndup(const char *s, size_t n);
-unsigned int	     ft_strlcat(char *dest, char *src, unsigned int size);
-void	ft_exit(void);
-void	handle_sigint(int sig);
-void init_signal(void);
-t_cmds *do_parsing(char *start_line, t_env *backup_env);
-char *ft_get_env(t_env *env_list, const char *name);
-void csq(char *dest, const char *src, int *j, int *i);
+char				*ft_strndup(const char *s, size_t n);
+unsigned int		ft_strlcat(char *dest, char *src, unsigned int size);
+void				ft_exit(void);
+void				handle_sigint(int sig);
+void				init_signal(void);
+t_cmds				*do_parsing(char *start_line, t_env *backup_env);
+char				*ft_get_env(t_env *env_list, const char *name);
+void				csq(char *dest, const char *src, int *j, int *i);
 
 #endif

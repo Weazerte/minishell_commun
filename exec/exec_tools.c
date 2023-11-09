@@ -6,12 +6,11 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:24:33 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/09 13:08:56 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:30:02 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
 
 char	*ft_find_bin(char **tab)
 {
@@ -58,9 +57,9 @@ char	*ft_path(t_env *lst_env)
 
 char	**ft_join_tab_cmd(char **tab, char *cmd)
 {
-	int	i;
-	char **tab2;
-	int	len;
+	int		i;
+	char	**tab2;
+	int		len;
 
 	len = 0;
 	while (tab[len])
@@ -70,7 +69,7 @@ char	**ft_join_tab_cmd(char **tab, char *cmd)
 		return (free_tab(tab), NULL);
 	i = -1;
 	while (tab[++i])
-		tab2[i] = ft_join_path(tab[i], cmd); // fonction dans builtin_tools
+		tab2[i] = ft_join_path(tab[i], cmd);
 	tab2[i] = NULL;
 	free_tab(tab);
 	return (tab2);
@@ -98,3 +97,4 @@ char	*ft_path_bin(char *cmd, t_env *lst_env)
 		return (NULL);
 	return (path);
 }
+

@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:05:08 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/09 17:11:22 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:13:17 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,6 @@ void	make_multexec(t_cmds *data_exec, t_env *lst_env)
 	i = -1;
 	while (++i < data_exec->ncmd)
 		waitpid(pid[i], &status, 0);
-	g_exstatus = status;
+	g_exstatus = WEXITSTATUS(status);
 	ft_free_mult_ex(data_exec);
 }

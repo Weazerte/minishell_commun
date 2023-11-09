@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:54:40 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/07 17:40:47 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:27:51 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	ft_exit(void)
 	write(1, "exit\n", 6);
 	exit(0);
 }
-void init_signal(void)
+void	init_signal(void)
 {
-    struct sigaction sa;
+	struct sigaction	sa;
 
-    sa.sa_handler = handle_sigint;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_RESTART;
-    sigaction(SIGINT, &sa, NULL);
+	sa.sa_handler = handle_sigint;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
 }

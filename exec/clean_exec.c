@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:29:36 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/07 14:56:16 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:25:52 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_free_cmd(char *str, char **tab)
 
 void	ft_close_pipes(t_cmds *data_exec, int **pipe)
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	while (++i < (data_exec->ncmd - 1))
@@ -73,7 +73,6 @@ int	ft_verif_space(char *str)
 	int	i;
 
 	i = 0;
-
 	while (str[i])
 	{
 		if (str[i] == -7)

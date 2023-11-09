@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:25:22 by mderkaou          #+#    #+#             */
-/*   Updated: 2023/11/09 19:54:06 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 21:17:47 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	ft_free_child(t_cmds *data, t_env *lst_env)
 	ft_free_lst(lst_env);
 }
 
-void	exec_with_args(t_cmds *data_exec, int infile, int outfile, t_env *lst_env)
+void	exec_with_args(t_cmds *data_exec, int infile, int outfile,
+		t_env *lst_env)
 {
 	char	**args;
 	char	*path;
@@ -52,7 +53,7 @@ void	exec_with_args(t_cmds *data_exec, int infile, int outfile, t_env *lst_env)
 		change_fucked_char(data_exec->cmd);
 		perror(data_exec->cmd);
 		ft_free_child(data_exec, lst_env);
-		exit(ERROR);
+		exit(2);
 	}
 	dup_and_close(infile, outfile);
 	status = execve(path, args, data_exec->env);
@@ -61,14 +62,14 @@ void	exec_with_args(t_cmds *data_exec, int infile, int outfile, t_env *lst_env)
 	exit(status);
 }
 
-
-void	exec_without_args(t_cmds *data_exec, int infile, int outfile, t_env *lst_env)
+void	exec_without_args(t_cmds *data_exec, int infile, int outfile,
+		t_env *lst_env)
 {
 	char	*path;
 	char	*arr[2];
-	int	status;
+	int		status;
 
-	// printf("%s\n", data_exec->cmd);
+	printf("%s\n", data_exec->cmd);
 	path = ft_path_bin(data_exec->cmd, lst_env);
 	if (!path)
 	{
@@ -76,11 +77,11 @@ void	exec_without_args(t_cmds *data_exec, int infile, int outfile, t_env *lst_en
 		change_fucked_char(data_exec->cmd);
 		perror(data_exec->cmd);
 		ft_free_child(data_exec, lst_env);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	arr[0] = path;
 	arr[1] = NULL;
-	dup_and_close(infile, outfile);		
+	dup_and_close(infile, outfile);
 	status = execve(path, arr, data_exec->env);
 	ft_free_child(data_exec, lst_env);
 	free(path);
