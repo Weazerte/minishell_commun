@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/09 16:23:06 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 16:59:13 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,6 @@ void	handle_sigint(int sig);
 void init_signal(void);
 t_cmds *do_parsing(char *start_line, t_env *backup_env);
 char *ft_get_env(t_env *env_list, const char *name);
-
+void csq(char *dest, const char *src, int *j, int *i);
 
 #endif

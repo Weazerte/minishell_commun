@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parse_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:23 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/06 21:58:16 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 17:00:07 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+
+void	skip_spaces(const char **line)
+{
+	while (is_space(**line))
+		(*line)++;
+}
 
 char	*ft_parsing(char *start_line, t_env *backup_env)
 {

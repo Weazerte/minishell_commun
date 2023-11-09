@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:17 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 16:23:34 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 16:59:35 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,39 +43,46 @@ char	*negative_doublequotes(char *line)
 	return (line);
 }
 
-void	skip_spaces(const char **line)
+
+void csq(char *dest, const char *src, int *j, int *i)
 {
-	while (is_space(**line))
-		(*line)++;
+    char current_char;
+
+	current_char = src[*i];
+    if (*j > 0 && !is_space(dest[*j - 1])) {
+        dest[(*j)++] = -7;
+    }
+    dest[(*j)++] = current_char;
+    if (current_char == '>' && src[*i + 1] == '>') {
+        dest[(*j)++] = src[++(*i)];
+    }
+    if (src[*i + 1] != '\0' && !is_space(src[*i + 1])) {
+        dest[(*j)++] = -7;
+    }
 }
 
-char	*clean_spaces_quotes(char *dest, const char *src, int *j, int i)
+char *clean_spaces_quotes(char *dest, const char *src, int *j, int i)
 {
-	static int		in_quotes;
-	char			current_char;
+    char current_char;
 
-	current_char = src[i];
-	while (current_char != '\0')
+    current_char = src[i];
+    while (current_char != '\0')
 	{
-		if (current_char == '\"' || current_char == '\'')
-			in_quotes = !in_quotes;
-		else if (!in_quotes && is_space(current_char))
+        if (current_char == '<' || current_char == '>')
+            csq(dest, src, j, &i);
+        else if (!is_space(current_char))
 		{
-			if (src[i +1] != '|' && !is_space(src[i +1]) && src[i +1] != '\0')
-				dest[(*j)++] = -7;
-		}
-		else if (current_char == '|')
-		{
-			while (*j > 0 && is_space(dest[*j - 1]))
-				(*j)--;
-			dest[(*j)++] = current_char;
-		}
-		else
-			dest[(*j)++] = current_char;
-		current_char = src[++i];
-	}
-	dest[*j] = '\0';
-	return (dest);
+            if (current_char == '|' && *j > 0 && is_space(dest[*j - 1]))
+                (*j)--;
+            dest[(*j)++] = current_char;
+        }
+        else if (!is_space(src[i + 1]) && src[i + 1] != '\0' && src[i + 1] != '|' && src[i + 1] != '<' && src[i + 1] != '>')
+            dest[(*j)++] = -7;
+        current_char = src[++i];
+    }
+    dest[*j] = '\0';
+    printf("DEST = [%s]", dest);
+    return dest;
 }
 
 char	*rmv_spaces_quotes(char *line)
