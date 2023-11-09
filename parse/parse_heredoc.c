@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:32 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 21:28:09 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 22:06:54 by mapierre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*find_heredoc(char *line)
 	return (NULL);
 }
 
-char	*find_multi_heredoc(char *line)
+char	*find_multi_heredoc(char *line, t_env *backup_env)
 {
 	char	*save;
 	char	*tmp;
@@ -42,7 +42,7 @@ char	*find_multi_heredoc(char *line)
 	tmp = NULL;
 	while (count--)
 	{
-		tmp = do_heredoc(save, 0);
+		tmp = do_heredoc(save, 0, backup_env);
 		//if (save != line)
 		free(save);
 		save = tmp;
@@ -60,7 +60,7 @@ char	*path_file(void)
 	return (file_path);
 }
 
-void	inside_heredoc(char *limiter, char *file)
+void	inside_heredoc(char *limiter, char *file, t_env *backup_env)
 {
 	char	*line;
 	int		fd;
@@ -82,11 +82,12 @@ void	inside_heredoc(char *limiter, char *file)
 		free(line);
 	}
 	free_strs(line, file, limiter);
+	ft_free_lst(backup_env);
 	close(fd);
 	exit(0);
 }
 
-char	*do_heredoc(char *line, int i)
+char	*do_heredoc(char *line, int i, t_env *backup_env)
 {
 	char	*pos;
 	char	*delimit;
@@ -104,7 +105,7 @@ char	*do_heredoc(char *line, int i)
 	delimit = find_delimit(pos);
 	if (!delimit)
 		return (line);
-	ft_exec_heredoc(delimit, file);
+	ft_exec_heredoc(delimit, file, backup_env);
 	new = delimit_to_path(line, delimit, file);
 	free_strs(file, delimit, NULL);
 	while (new[++i])
