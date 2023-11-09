@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:25:22 by mderkaou          #+#    #+#             */
-/*   Updated: 2023/11/09 13:39:24 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 19:54:06 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	exec_without_args(t_cmds *data_exec, int infile, int outfile, t_env *lst_en
 	char	*arr[2];
 	int	status;
 
+	// printf("%s\n", data_exec->cmd);
 	path = ft_path_bin(data_exec->cmd, lst_env);
 	if (!path)
 	{

@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:10:26 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/09 16:37:03 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/09 20:22:21 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,31 @@ static void	ft_cpycmd(char **tab, char *dst, int i)
 	dst[k] = 0;
 }
 
+static int	ft_where(char **tab)
+{
+	int	i;
+
+	i = -1;
+	while (tab[++i])
+		if (ft_strcmp(tab[i], "<") == 0)
+			return ((i + 1));
+	return (0);
+}
+
 void	ft_open_infile(t_cmds *data)
 {
 	char **tab;
 	int	len;
 	int	tab_len;
 	char *file;
+	int	where;
 
 	tab = ft_split(data->cmd, -7);
-	len = (int)ft_strlen(tab[1]);
-	tab_len = (ft_tab_len(tab) - 2);
+	where = ft_where(tab);
+	len = (int)ft_strlen(tab[where]);
+	tab_len = (ft_tab_len(tab) - 1);
 	file = malloc(sizeof(char) * (len + tab_len + 1));
-	ft_strnccpy(tab[1], file, len);
+	ft_strnccpy(tab[where], file, len);
 	data->infile = open(file, O_RDONLY);
 	if (data->cmd)
 		free(data->cmd);
