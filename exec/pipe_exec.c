@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:16:30 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/09 21:17:33 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:38:10 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,20 @@ void	ft_last_pipe(t_cmds *data_exec, int **pip, int i, t_env *lst_env)
 		close(pip[i - 1][0]);
 		if ((ft_verif_space(data_exec->cmd) == 1))
 			ft_multexec_args(data_exec, data_exec->infile, data_exec->outfile,
-					lst_env);
+				lst_env);
 		else
 			ft_multexec_noargs(data_exec, data_exec->infile, data_exec->outfile,
-					lst_env);
+				lst_env);
 	}
 	if ((ft_verif_space(data_exec->cmd) == 1))
 		ft_multexec_args(data_exec, pip[i - 1][0], data_exec->outfile, lst_env);
 	else
 		ft_multexec_noargs(data_exec, pip[i - 1][0], data_exec->outfile,
-				lst_env);
+			lst_env);
 }
 
 void	pipe_redirect(t_cmds *data_exec, int **pipe, int i, t_env *lst_env)
 {
-	// printf("%d\n", data_exec->ncmd);
 	if (i == 0)
 		ft_first_pipe(data_exec, pipe, lst_env);
 	else if (i == (data_exec->ncmd - 1))

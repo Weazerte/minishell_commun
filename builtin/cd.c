@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 14:48:10 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/08 23:35:39 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:26:45 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,8 @@ static int	go2path(int option, t_env *lst_env)
 		update_oldpwd(lst_env);
 		env_path = get_env_path(lst_env, "HOME", 4);
 		if (!env_path)
-			ft_putinfd_n("minishell : cd: HOME not set", STDERR);
-		if (!env_path)
-			return (ERROR);
+			return (ft_putinfd_n("minishell : cd: HOME not set",
+					STDERR), ERROR);
 	}
 	else if (option == 1)
 	{

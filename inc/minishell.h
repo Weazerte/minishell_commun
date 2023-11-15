@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:52:00 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/09 22:23:15 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/15 20:29:00 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_cmds
 	char			**env;
 	int				exit;
 	int				ncmd;
-}					t_cmds;
+}	t_cmds;
 
 int					ft_tab_len(char **env);
 
@@ -232,10 +232,13 @@ char				*path_file(void);
 char				*has_heredoc(char *line);
 char				*find_multi_heredoc(char *line, t_env *backup_env);
 char				*find_heredoc(char *line);
-char				*do_heredoc(char *line, int i, t_env *backup_env, char *str);
+char				*do_heredoc(char *line, int i, t_env *backup_env,
+						char *str);
 char				*find_delimit(char *line);
-void				ft_exec_heredoc(char *limiter, char *file, t_env *backup_env, char *str);
-void				inside_heredoc(char *limiter, char *file, t_env *backup_env, char *line);
+void				ft_exec_heredoc(char *limiter, char *file,
+						t_env *backup_env, char *str);
+void				inside_heredoc(char *limiter, char *file,
+						t_env *backup_env, char *line);
 char				*ft_parsing(char *start_line, t_env *backup_env);
 int					ft_strcmp(char *s1, char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);

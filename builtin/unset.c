@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:31:47 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/08 13:44:36 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:24:01 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,6 @@ void	unset_builtin_comp(char **a, t_env *lst_env, t_env *env, t_env *tmp)
 	}
 }
 
-// static void	ft_put_lst(t_env *env)
-// {
-// 	while (env && env->next)
-// 	{
-// 		ft_putinfd_n(env->env_line, 1);
-// 		env = env->next;
-// 	}
-// 	if (env->env_line)
-// 		ft_putinfd_n(env->env_line, 1);
-// }
-
-// lst_env = (env->next) ? env->next : lst_env;
 int	unset_builtin(char **a, t_env *lst_env)
 {
 	t_env	*env;
@@ -70,16 +58,15 @@ int	unset_builtin(char **a, t_env *lst_env)
 
 	env = lst_env;
 	if (!(a[1]))
-		return(SUCCESS);
+		return (SUCCESS);
 	if (ft_strncmp(a[1], env->env_line, env_size(env->env_line)) == 0)
 	{
 		if (env->next)
 			lst_env = env->next;
 		delete_node(lst_env, env);
-		return(SUCCESS);
+		return (SUCCESS);
 	}
 	tmp = NULL;
 	unset_builtin_comp(a, lst_env, env, tmp);
-	// ft_put_lst(lst_env);
-	return(SUCCESS);
+	return (SUCCESS);
 }

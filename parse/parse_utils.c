@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:17 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 22:57:48 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:18:08 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*dollar_qm(void)
 {
 	char	*var;
 	char	*val;
-	
+
 	val = ft_itoa(g_exstatus);
 	var = ft_strdup(val);
 	free(val);
@@ -86,7 +86,7 @@ char	*rmv_spaces_quotes(char *line)
 	int		j;
 
 	j = 0;
-	new_line = (char *)malloc(ft_strlen(line) * 3); // TODO pull pour le fix
+	new_line = (char *)malloc(ft_strlen(line) * 3);
 	if (!new_line)
 		return (NULL);
 	skip_spaces((const char **)&line);

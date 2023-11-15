@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:47:24 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/09 21:25:55 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 19:02:17 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	exec_with_forked_builtin(t_cmds *data_exec, t_env *lst_env)
 	else if (ft_strncmp(data_exec->cmd, "env", 3) == 0)
 		env_builtin(lst_env, data_exec->outfile);
 	else if (ft_strncmp(data_exec->cmd, "pwd", 3) == 0)
-		pwd_builitn(/*data_exec->lst_env, */ data_exec->outfile);
+		pwd_builitn(data_exec->outfile);
 	ft_free_child(data_exec, lst_env);
 	free_tab(cmd_args);
 	exit(SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:05:08 by weaz              #+#    #+#             */
-/*   Updated: 2023/11/09 21:13:17 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:14:17 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	dup_and_close(int infile, int outfile)
 	}
 }
 
-void	ft_multexec_args(t_cmds *data_exec, int infile, int outfile, t_env *lst_env)
+void	ft_multexec_args(t_cmds *data_exec, int infile, int outfile,
+		t_env *lst_env)
 {
 	char	**args;
 	char	*path;
@@ -49,7 +50,8 @@ void	ft_multexec_args(t_cmds *data_exec, int infile, int outfile, t_env *lst_env
 	exit(status);
 }
 
-void	ft_multexec_noargs(t_cmds *data_exec, int infile, int outfile, t_env *lst_env)
+void	ft_multexec_noargs(t_cmds *data_exec, int infile, int outfile,
+		t_env *lst_env)
 {
 	char	*path;
 	char	*arr[2];
@@ -72,7 +74,8 @@ void	ft_multexec_noargs(t_cmds *data_exec, int infile, int outfile, t_env *lst_e
 	exit(status);
 }
 
-void	make_multexec_tools(t_cmds *data_exec, t_env *lst_env, int **pipe, pid_t pid[1024])
+void	make_multexec_tools(t_cmds *data_exec, t_env *lst_env, int **pipe,
+		pid_t pid[1024])
 {
 	int	i;
 
@@ -95,15 +98,14 @@ void	make_multexec_tools(t_cmds *data_exec, t_env *lst_env, int **pipe, pid_t pi
 		}
 		i++;
 	}
-	// exit(0);
 }
 
 void	make_multexec(t_cmds *data_exec, t_env *lst_env)
 {
 	int		i;
-	pid_t		pid[1024];
-	int	**pipe;
-	int	status;
+	pid_t	pid[1024];
+	int		**pipe;
+	int		status;
 
 	if (init_pipe(data_exec, &pipe) == ERROR)
 	{

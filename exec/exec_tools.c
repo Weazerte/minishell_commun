@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:24:33 by diavolo           #+#    #+#             */
-/*   Updated: 2023/11/09 21:30:02 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:13:10 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,3 @@ char	*ft_path_bin(char *cmd, t_env *lst_env)
 		return (NULL);
 	return (path);
 }
-

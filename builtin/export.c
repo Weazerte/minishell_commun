@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 16:38:47 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/08 23:44:14 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:26:57 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,5 @@ int	export_builtin(char **args, t_env *lst_env)
 		if (error_ret == 1)
 			env_add(args[1], lst_env);
 	}
-	return(SUCCESS);
+	return (SUCCESS);
 }

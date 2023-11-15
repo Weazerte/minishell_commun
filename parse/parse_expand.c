@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 18:28:19 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 21:29:17 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:17:13 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*split_env(char *str, int dollar_pos, t_env *backup_env)
 	before = ft_strndup(str, dollar_pos);
 	to_expand = find_var_name(str, dollar_pos + 1);
 	after = ft_strndup(&str[dollar_pos + 1 + ft_strlen(to_expand)],
-						ft_strlen(str));
+			ft_strlen(str));
 	if (str[dollar_pos + 1] == '?')
 		expanded = build_expanded_line(before, to_expand, after);
 	else
@@ -98,9 +98,9 @@ char	*split_env(char *str, int dollar_pos, t_env *backup_env)
 
 char	*expand_all(char *str, t_env *backup_env)
 {
-	char *result;
-	int dollar_pos;
-	char *temp;
+	char	*result;
+	int		dollar_pos;
+	char	*temp;
 
 	result = str;
 	dollar_pos = find_pos_dollar(result);

@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:10:38 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/09 18:02:02 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:21:49 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,77 +30,93 @@ static int	ft_len(char *str, char c)
 	return (i);
 }
 
-static void	ft_strnccpy(const char *src, char *dst, int len, char c)
+static char	*ft_strjoin_space(char const *s1, char const *s2, char c)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	*str;
 
+	str = malloc((ft_strlen((char *)s1) + ft_strlen((char *)s2) + 2)
+			* sizeof(char));
+	if (!str)
+		return (NULL);
 	i = 0;
-	if (c != 0)
-	{
-		while (src[i] && src[i] != c)
-			i++;
-		i += 2;
-	}
 	j = 0;
-	while (src[i] && j < len)
+	while (s1[i])
 	{
-		dst[j] = src[i];
+		str[j] = s1[i];
 		i++;
 		j++;
 	}
-	dst[j] = 0;
+	i = -1;
+	str[j++] = c;
+	while (s2[++i])
+	{
+		str[j] = s2[i];
+		j++;
+	}
+	str[j] = '\0';
+	return (str);
 }
 
-static void	ft_cpycmd(const char *src, char *dst, int len)
+static void	ft_open(t_cmds *data, char **tab)
 {
-	int	i;
+	int		i;
+	char	*file;
 
-	i = 0;
-	while (src[i] && i < len)
+	file = NULL;
+	i = 1;
+	while (tab[i])
 	{
-		if (src[i] == ' ')
-			dst[i] = -7;
-		else
-			dst[i] = src[i];
+		if (!tab[i + 1])
+			break ;
+		if (ft_strcmp(tab[i], ">") == 0)
+		{
+			file = ft_strdup(tab[i + 1]);
+			if (data->outfile != 1)
+				close(data->outfile);
+			if (ft_len(tab[i + 1], 0) == 2)
+				data->outfile = open(file, O_CREAT | O_APPEND | O_RDWR, 00644);
+			else
+				data->outfile = open(file, O_TRUNC | O_CREAT | O_RDWR, 00644);
+		}
+		if (file)
+			free(file);
+		file = NULL;
 		i++;
 	}
-	dst[i] = 0;
 }
-void	ft_free_for_open(char *s1, char *s2, char **tab)
+
+static char	*open_outfile_tools(char *cmd_cpy, char **tab, int i)
 {
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
-	if (tab)
-		free_tab(tab);
+	char	*tmp;
+
+	if (i == 1)
+		tmp = ft_strjoin_space(cmd_cpy, tab[i], -7);
+	else
+		tmp = ft_strjoin_space(cmd_cpy, tab[i], ' ');
+	ft_memdel(cmd_cpy);
+	return (tmp);
 }
 
 void	ft_open_outfile(t_cmds *data)
 {
 	char	**tab;
-	int		len;
-	int		len_tab;
-	char	*file;
 	char	*cmd_cpy;
+	int		i;
 
 	tab = ft_split(data->cmd, -7);
-	len_tab = (ft_tab_len(tab) - 1);
-	len = 0;
-	while (tab[len_tab][len])
-		len++;
-	file = malloc(sizeof(char) * (len + 1));
-	ft_strnccpy(tab[len_tab], file, ft_len(tab[len_tab], 0), 0);
-	if (ft_len(tab[len_tab - 1], 0) == 2)
-		data->outfile = open(file, O_CREAT | O_APPEND | O_RDWR, 00644);
-	else
-		data->outfile = open(file, O_TRUNC | O_CREAT | O_RDWR, 00644);
-	cmd_cpy = ft_strdup(data->cmd);
-	if (data->cmd)
-		free(data->cmd);
-	len = (ft_len(cmd_cpy, '>') - 1);
-	data->cmd = malloc(sizeof(char) * (len + 1));
-	ft_cpycmd(cmd_cpy, data->cmd, len);
-	ft_free_for_open(file, cmd_cpy, tab);
+	ft_open(data, tab);
+	cmd_cpy = ft_strdup(tab[0]);
+	i = 0;
+	while (tab[++i])
+	{
+		if (ft_strcmp(tab[i], ">") != 0)
+			cmd_cpy = open_outfile_tools(cmd_cpy, tab, i);
+		else
+			i++;
+	}
+	free_tab(tab);
+	data->cmd = ft_strdup(cmd_cpy);
+	ft_memdel(cmd_cpy);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:23 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 22:23:38 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/15 20:19:59 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ int	free_struct(t_cmds *data_struct)
 
 char	*ft_get_env(t_env *env_list, const char *name)
 {
-	size_t var_len;
-	char *env_line;
-	char *sign;
-	size_t key_len;
+	size_t	var_len;
+	char	*env_line;
+	char	*sign;
+	size_t	key_len;
 
 	var_len = ft_strlen(name);
 	while (env_list != NULL)

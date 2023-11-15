@@ -6,7 +6,7 @@
 #    By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:11:22 by user              #+#    #+#              #
-#    Updated: 2023/11/09 18:20:56 by eaubry           ###   ########.fr        #
+#    Updated: 2023/11/15 20:40:57 by eaubry           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,8 +42,8 @@ fclean:	clean
 	rm -f ${NAME}
 	make -C libft fclean
 	
-val:		$(NAME)
-		valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --suppressions=rl_ignore --track-origins=yes ./${NAME}
+#val:		$(NAME)
+#		valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --suppressions=rl_ignore --track-origins=yes ./${NAME}
 
 re:	fclean all
 

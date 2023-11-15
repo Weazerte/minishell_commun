@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_heredoc_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:39 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 22:12:37 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/15 20:18:36 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char	*has_heredoc(char *line)
 	return (NULL);
 }
 
-void	ft_exec_heredoc(char *limiter, char *file, t_env *backup_env, char *line)
+void	ft_exec_heredoc(char *limiter, char *file,
+	t_env *backup_env, char *line)
 {
 	int	pid;
 	int	status;

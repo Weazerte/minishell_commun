@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapierre <mapierre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:32 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 22:16:31 by mapierre         ###   ########.fr       */
+/*   Updated: 2023/11/15 20:19:06 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ char	*find_multi_heredoc(char *line, t_env *backup_env)
 	while (count--)
 	{
 		tmp = do_heredoc(save, 0, backup_env, line);
-		//if (save != line)
 		free(save);
 		save = tmp;
 		if (!save)
-			return (NULL); // free line ?
+			return (NULL);
 	}
 	return (save);
 }

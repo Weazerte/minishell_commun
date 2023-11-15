@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 16:14:38 by eaubry            #+#    #+#             */
-/*   Updated: 2023/11/09 21:16:04 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 19:16:59 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	echo_builtin(int fd, char **args)
 
 	option = 0;
 	i = 1;
-	printf("%d\n", fd);
 	if (nb_args(args) > 1)
 	{
 		i = 0;

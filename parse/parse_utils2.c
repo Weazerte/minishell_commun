@@ -6,7 +6,7 @@
 /*   By: eaubry <eaubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:28:08 by mapierre          #+#    #+#             */
-/*   Updated: 2023/11/09 21:27:41 by eaubry           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:21:24 by eaubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	find_next_pipe(char *str)
 	}
 	return (-1);
 }
+
 char	*ft_strndup(const char *s, size_t n)
 {
 	size_t	i;
@@ -86,9 +87,9 @@ char	*ft_strndup(const char *s, size_t n)
 
 unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
 {
-	unsigned int i;
-	unsigned int j;
-	unsigned int k;
+	unsigned int	i;
+	unsigned int	j;
+	unsigned int	k;
 
 	i = ft_strlen(dest);
 	j = ft_strlen(src);
